@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>我的博客</title>
-    <updated>2023-08-17T04:52:20.675Z</updated>
+    <updated>2023-08-17T04:55:13.477Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,72 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, 我的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[硬盘分区及挂载]]></title>
+        <id>https://slinjing.github.io/post/ying-pan-fen-qu-ji-gua-zai/</id>
+        <link href="https://slinjing.github.io/post/ying-pan-fen-qu-ji-gua-zai/">
+        </link>
+        <updated>2023-08-17T04:54:54.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li>
+<p>列出分区表：fdisk -l<br>
+第一块磁盘为sda，第二块为sdb，以此类推</p>
+</li>
+<li>
+<p>开始分区:fdisk /dev/sdb<br>
+执行命令后会看到下面的提示：<br>
+Command (m for help)：n/e  输入n或e(n为新建分区，e为扩展分区)<br>
+Partition type:    --分区类型<br>
+p   primary (0 primary, 0 extended, 4 free)   --主分区<br>
+e   extended          --扩展分区<br>
+Select (default p): e<br>
+Partition number (1-4, default 1):    --分区编号，默认1<br>
+First sector (2048-2097151, default 2048):  --第一个扇区，默认2048<br>
+Using default value 2048<br>
+Last sector, +sectors or +size{K,M,G} (2048-2097151, default 2097151):<br>
+--最后一个扇区，不输入的话就是分配整改扇区，需要调整的话输入自己要分配的容量，如：+500G<br>
+Using default value 2097151</p>
+</li>
+</ol>
+<p>看到下面提示就说明成功了<br>
+Partition 1 of type Extended and of size 1023 MiB is set</p>
+<p>Command (m for help): w  --输入w写入就完事</p>
+<p>会看到提示：<br>
+The partition table has been altered! --分区表已被更改！<br>
+Calling ioctl() to re-read partition table.  --调用ioctl（）来重新读取分区表。<br>
+Syncing disks.  --正在同步磁盘。</p>
+<ol start="3">
+<li>
+<p>格式化新分区：mkfs -t ext4 /dev/sdb<br>
+mkfs.xfs -t /dev/sda</p>
+</li>
+<li>
+<p>挂载：<br>
+mkdir /home/sd1    --创建挂载点<br>
+mount -t ext4 /dev/sdb /home/sd1   --挂载到/home/sd1<br>
+df -h /home/sd1     --查看是否挂载成功</p>
+</li>
+</ol>
+<p>--显示已成功：<br>
+/dev/sdc        976M  2.6M  907M   1% /home/sd1</p>
+<ol start="5">
+<li>永久挂载<br>
+--用blkid命令拿到UUID：blkid<br>
+/dev/sdb: UUID=&quot;cc6e8689-d83f-4221-b260-4a81e70d85a4&quot; TYPE=&quot;ext4&quot;<br>
+--写入配置文件：vim /etc/fstab<br>
+UUID=&quot;9e86f962-12f0-4842-a4a9-ecc01a0726a1&quot; /home/sd1 ext4 defaults 0 0<br>
+或<br>
+/dev/sdb /home/sd1 ext4 defaults 0 0<br>
+--刷新挂载:mount -a</li>
+</ol>
+<p>6.卸载：umount /home/sd1<br>
+以写入配置文件方式挂载时此命令无效，重启后会重新挂载，需要注释掉配置文件中匹配的行</p>
+<p>7.将挂载设备改为只读：<br>
+mount -o ro /dev/sdb /home/sd1<br>
+将挂载设备改为可读写：<br>
+mount -o rw /dev/sdb /home/sd1</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[node_exporter部署]]></title>
         <id>https://slinjing.github.io/post/node_exporter-bu-shu/</id>

@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>pormetheus | 我的博客</title>
+<title>硬盘分区及挂载 | 我的博客</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692248107089">
 
@@ -25,11 +25,15 @@
 
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <div class="main-content">
-        <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -97,45 +101,96 @@
     }
 </script>
 
-        <div class="current-tag-container">
-            <h2 class="title gt-c-content-color-first">
-                #pormetheus
-            </h2>
-        </div>
-        <div class="post-list-container">
-    <div class="post-inner">
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://slinjing.github.io/post/node_exporter-bu-shu/">
-                            <span class="post-title gt-c-content-color-first">node_exporter部署</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2023-08-17 ·
-                        </time>
-                        
-                            <a href="https://slinjing.github.io/tag/z-aiiL1nk/" class="post-tag">
-                                # pormetheus
-                            </a>
-                        
-                    </div>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    硬盘分区及挂载
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-08-17 ·
+                    </time>
+                    
                 </div>
-                
+                <div class="post-content">
+                    <ol>
+<li>
+<p>列出分区表：fdisk -l<br>
+第一块磁盘为sda，第二块为sdb，以此类推</p>
+</li>
+<li>
+<p>开始分区:fdisk /dev/sdb<br>
+执行命令后会看到下面的提示：<br>
+Command (m for help)：n/e  输入n或e(n为新建分区，e为扩展分区)<br>
+Partition type:    --分区类型<br>
+p   primary (0 primary, 0 extended, 4 free)   --主分区<br>
+e   extended          --扩展分区<br>
+Select (default p): e<br>
+Partition number (1-4, default 1):    --分区编号，默认1<br>
+First sector (2048-2097151, default 2048):  --第一个扇区，默认2048<br>
+Using default value 2048<br>
+Last sector, +sectors or +size{K,M,G} (2048-2097151, default 2097151):<br>
+--最后一个扇区，不输入的话就是分配整改扇区，需要调整的话输入自己要分配的容量，如：+500G<br>
+Using default value 2097151</p>
+</li>
+</ol>
+<p>看到下面提示就说明成功了<br>
+Partition 1 of type Extended and of size 1023 MiB is set</p>
+<p>Command (m for help): w  --输入w写入就完事</p>
+<p>会看到提示：<br>
+The partition table has been altered! --分区表已被更改！<br>
+Calling ioctl() to re-read partition table.  --调用ioctl（）来重新读取分区表。<br>
+Syncing disks.  --正在同步磁盘。</p>
+<ol start="3">
+<li>
+<p>格式化新分区：mkfs -t ext4 /dev/sdb<br>
+mkfs.xfs -t /dev/sda</p>
+</li>
+<li>
+<p>挂载：<br>
+mkdir /home/sd1    --创建挂载点<br>
+mount -t ext4 /dev/sdb /home/sd1   --挂载到/home/sd1<br>
+df -h /home/sd1     --查看是否挂载成功</p>
+</li>
+</ol>
+<p>--显示已成功：<br>
+/dev/sdc        976M  2.6M  907M   1% /home/sd1</p>
+<ol start="5">
+<li>永久挂载<br>
+--用blkid命令拿到UUID：blkid<br>
+/dev/sdb: UUID=&quot;cc6e8689-d83f-4221-b260-4a81e70d85a4&quot; TYPE=&quot;ext4&quot;<br>
+--写入配置文件：vim /etc/fstab<br>
+UUID=&quot;9e86f962-12f0-4842-a4a9-ecc01a0726a1&quot; /home/sd1 ext4 defaults 0 0<br>
+或<br>
+/dev/sdb /home/sd1 ext4 defaults 0 0<br>
+--刷新挂载:mount -a</li>
+</ol>
+<p>6.卸载：umount /home/sd1<br>
+以写入配置文件方式挂载时此命令无效，重启后会重新挂载，需要注释掉配置文件中匹配的行</p>
+<p>7.将挂载设备改为只读：<br>
+mount -o ro /dev/sdb /home/sd1<br>
+将挂载设备改为可读写：<br>
+mount -o rw /dev/sdb /home/sd1</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://slinjing.github.io/post/node_exporter-bu-shu/" class="post-title gt-a-link">
+                    node_exporter部署
+                </a>
             </div>
         
-    </div>
-</div>
-        <div class="pagination-container">
-    
-    
-</div>
+
+        
+
+        
+
+        
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">温故而知新</div>
