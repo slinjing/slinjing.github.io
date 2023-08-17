@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
-    <title>jsl的博客</title>
-    <updated>2023-08-17T11:25:48.069Z</updated>
+    <title>slinjing</title>
+    <updated>2023-08-17T11:32:14.966Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2023, jsl的博客</rights>
+    <rights>All rights reserved 2023, slinjing</rights>
     <entry>
         <title type="html"><![CDATA[PXE服务器配置]]></title>
         <id>https://slinjing.github.io/post/pxe-fu-wu-qi-pei-zhi/</id>
