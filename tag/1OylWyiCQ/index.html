@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>以nginx为文件服务器 | 我的博客</title>
+<title>docker | 我的博客</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692247286394">
 
@@ -25,15 +25,11 @@
 
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
-    
-        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script> 
-    
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <nav class="navbar navbar-expand-lg">
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -101,68 +97,49 @@
     }
 </script>
 
-    <div class="post-container">
-        <div class="post-detail gt-bg-theme-color-second">
-            <article class="gt-post-content">
-                <h2 class="post-title">
-                    以nginx为文件服务器
-                </h2>
-                <div class="post-info">
-                    <time class="post-time gt-c-content-color-first">
-                        · 2023-08-17 ·
-                    </time>
-                    
-                        <a href="https://slinjing.github.io/tag/ZOaXKucd4/" class="post-tags">
-                            # nginx
-                        </a>
-                    
-                </div>
-                <div class="post-content">
-                    <h2 id="修改配置文件">修改配置文件</h2>
-<!-- more -->
-<pre><code class="language-shell">server {
-        listen       80;
-        server_name  域名或者IP; 
-        charset utf-8,gbk; # 避免中文乱码
-        location /var/logs/ {  # 可以指定也可以全部，全部就用 /
-            alias /var/logs/; #指定实际目录绝对路径
-            autoindex on;  # 开启目录浏览功能
-            autoindex_exact_size on; #默认开启为on,显示出文件的确切大小，单位是bytes。关闭为off，显示出文件大概大小，单位为kB，MB或GB
-            autoindex_localtime on; #默认为off,显示的文件时间为GMT时间。改为on后，显示的文件时间为文件的服务器时间
-            # 判断文件是否以下这些方式结尾的，是的话可以下载
-            if ($request_filename ~* ^.*?.(txt|doc|pdf|rar|gz|zip|docx|exe|xlsx|ppt|pptx)$){
-            add_header Content-Disposition attachment;
-            }
-        }
-        error_page 404 /404.html;
-            location = /40x.html {
-        }
-        error_page 500 502 503 504 /50x.html;
-            location = /50x.html {
-        }
-}
-</code></pre>
-<!-- more -->
-<h2 id="修改配置后重新加载生效">修改配置后重新加载生效</h2>
-<!-- more -->
-<pre><code class="language-shell">nginx -s reload
-</code></pre>
-<!-- more -->
-<h2 id="效果">效果</h2>
-<!-- more -->
-<figure data-type="image" tabindex="1"><img src="https://slinjing.github.io/post-images/1692237881236.png" alt="" loading="lazy"></figure>
-
-                </div>
-            </article>
+        <div class="current-tag-container">
+            <h2 class="title gt-c-content-color-first">
+                #docker
+            </h2>
         </div>
-
+        <div class="post-list-container">
+    <div class="post-inner">
         
-
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://slinjing.github.io/post/docker-compose-nextcloud/">
+                            <span class="post-title gt-c-content-color-first">docker-compose-nextcloud</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2023-08-17 ·
+                        </time>
+                        
+                            <a href="https://slinjing.github.io/tag/1OylWyiCQ/" class="post-tag">
+                                # docker
+                            </a>
+                        
+                    </div>
+                </div>
+                
+                    <a href="https://slinjing.github.io/post/docker-compose-nextcloud/" class="post-feature-image"
+                       style="background-image: url('https://slinjing.github.io/post-images/docker-compose-nextcloud.png')">
+                    </a>
+                
+            </div>
         
-
-        
-
-        
+    </div>
+</div>
+        <div class="pagination-container">
+    
+    
+</div>
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">温故而知新</div>
