@@ -6,7 +6,7 @@
 
 <title>docker安装 | jsl的博客</title>
 
-<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692259474072">
+<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692259623944">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://slinjing.github.io/styles/main.css">
@@ -81,7 +81,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1692259474072"
+            <form id="gridea-search-form" style="position: relative" data-update="1692259623944"
                 action="/search/">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -145,7 +145,7 @@ yum -y install docker-ce
 <h3 id="3️⃣镜像加速">3️⃣镜像加速</h3>
 <p>由于docker官方提供的镜像仓库地址在国外，所以我们一般都会使用国内的镜像仓库地址，我这里使用的是阿里云的。</p>
 <h4 id="1登录阿里云官网-控制台-容器-容器镜像服务acr-镜像工具-镜像加速器得到加速器地址">1.登录阿里云官网-控制台-容器-容器镜像服务ACR-镜像工具-镜像加速器得到加速器地址。</h4>
-<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/4368d0a10ee84c4db1f21ed100151164.png" alt="在这里插入图片描述" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://slinjing.github.io/post-images/1692259588538.png" alt="" loading="lazy"></figure>
 <h4 id="2再把得到的加速器地址写入到etcdockerdaemonjson就可以了">2.再把得到的加速器地址写入到/etc/docker/daemon.json就可以了。</h4>
 <pre><code class="language-bash">vim  /etc/docker/daemon.json
 或
