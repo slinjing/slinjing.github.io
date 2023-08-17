@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>windows_exporter安装 | slinjing</title>
+<title>slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692272427284">
 
@@ -25,15 +25,11 @@
 
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
-    
-        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script> 
-    
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <nav class="navbar navbar-expand-lg">
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -101,59 +97,78 @@
     }
 </script>
 
-    <div class="post-container">
-        <div class="post-detail gt-bg-theme-color-second">
-            <article class="gt-post-content">
-                <h2 class="post-title">
-                    windows_exporter安装
-                </h2>
-                <div class="post-info">
-                    <time class="post-time gt-c-content-color-first">
-                        · 2023-08-17 ·
-                    </time>
-                    
-                        <a href="https://slinjing.github.io/tag/z-aiiL1nk/" class="post-tags">
-                            # pormetheus
-                        </a>
-                    
-                </div>
-                <div class="post-content">
-                    <h3 id="1️⃣安装包下载">1️⃣安装包下载</h3>
-<pre><code class="language-shell">https://github.com/prometheus-community/windows_exporter/releases
-</code></pre>
-<h3 id="2️⃣在注册表和服务数据库中创建windows_exporter服务项">2️⃣在注册表和服务数据库中创建windows_exporter服务项</h3>
-<pre><code class="language-shell">sc create windows_exporter binpath= &quot;D:\windows_exporter\windows_exporter-0.21.0-386.exe&quot; type= own start= auto displayname= windows_exporter
-#binpath后接的是.exe程序所在的目录及程序名称
-</code></pre>
-<h3 id="3️⃣启动注册的windows_export服务">3️⃣启动注册的windows_export服务</h3>
-<pre><code class="language-shell">输入启动参数：–telemetry.addr=127.0.0.1:9182
-此步可忽略
-</code></pre>
-<h3 id="4️⃣运行windows_exporter服务">4️⃣运行windows_exporter服务</h3>
-<pre><code class="language-shell">sc start windows_exporter
-</code></pre>
-<h3 id="5️⃣删除服务">5️⃣删除服务</h3>
-<pre><code class="language-shell">sc delete windows_exporter
-</code></pre>
 
-                </div>
-            </article>
-        </div>
-
+        <div class="post-list-container">
+    <div class="post-inner">
         
-            <div class="next-post">
-                <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://slinjing.github.io/post/nginx-fang-wen-ri-zhi-tong-ji-fen-xi-jiao-ben/" class="post-title gt-a-link">
-                    nginx访问日志统计分析脚本
-                </a>
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://slinjing.github.io/post/docker-compose-nextcloud/">
+                            <span class="post-title gt-c-content-color-first">docker-compose-nextcloud</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2023-08-17 ·
+                        </time>
+                        
+                            <a href="https://slinjing.github.io/tag/1OylWyiCQ/" class="post-tag">
+                                # docker
+                            </a>
+                        
+                    </div>
+                </div>
+                
+                    <a href="https://slinjing.github.io/post/docker-compose-nextcloud/" class="post-feature-image"
+                       style="background-image: url('https://slinjing.github.io/post-images/docker-compose-nextcloud.png')">
+                    </a>
+                
             </div>
         
-
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://slinjing.github.io/post/nginx-xian-shi-wen-jian-mu-lu-bing-qie-she-zhi-xia-zai/">
+                            <span class="post-title gt-c-content-color-first">以nginx为文件服务器</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2023-08-17 ·
+                        </time>
+                        
+                            <a href="https://slinjing.github.io/tag/ZOaXKucd4/" class="post-tag">
+                                # nginx
+                            </a>
+                        
+                    </div>
+                </div>
+                
+                    <a href="https://slinjing.github.io/post/nginx-xian-shi-wen-jian-mu-lu-bing-qie-she-zhi-xia-zai/" class="post-feature-image"
+                       style="background-image: url('https://slinjing.github.io/post-images/nginx-xian-shi-wen-jian-mu-lu-bing-qie-she-zhi-xia-zai.png')">
+                    </a>
+                
+            </div>
         
+    </div>
+</div>
 
-        
+        <div class="pagination-container">
+    
+        <a href="https://slinjing.github.io/" class="prev-page gt-a-link">上一页</a>
+    
+    
+</div>
 
-        
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">温故而知新</div>
