@@ -6,7 +6,7 @@
 
 <title>linux系统硬盘分区 | jsl的博客</title>
 
-<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692253781933">
+<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692253937752">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://slinjing.github.io/styles/main.css">
@@ -81,7 +81,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1692253781933"
+            <form id="gridea-search-form" style="position: relative" data-update="1692253937752"
                 action="/search/">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -173,8 +173,9 @@ UUID=&quot;9e86f962-12f0-4842-a4a9-ecc01a0726a1&quot; /home/sd1 ext4 defaults 0 
 <pre><code class="language-shell">umount /home/sd1
 以写入配置文件方式挂载时此命令无效，重启后会重新挂载，需要注释掉配置文件中匹配的行
 </code></pre>
-<h3 id="7️⃣将挂载设备改为只读">7️⃣将挂载设备改为只读：</h3>
-<pre><code class="language-shell">mount -o ro /dev/sdb /home/sd1
+<h3 id="7️⃣读写权限">7️⃣读写权限</h3>
+<pre><code class="language-shell">将挂载设备改为只读：
+mount -o ro /dev/sdb /home/sd1
 将挂载设备改为可读写：
 mount -o rw /dev/sdb /home/sd1
 </code></pre>
