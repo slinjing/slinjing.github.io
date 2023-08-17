@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>jsl的博客</title>
-    <updated>2023-08-17T06:54:53.268Z</updated>
+    <updated>2023-08-17T07:04:01.056Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,31 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, jsl的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[windows_exporter安装]]></title>
+        <id>https://slinjing.github.io/post/windows_exporter-an-zhuang/</id>
+        <link href="https://slinjing.github.io/post/windows_exporter-an-zhuang/">
+        </link>
+        <updated>2023-08-17T06:57:53.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1️⃣安装包下载">1️⃣安装包下载</h3>
+<pre><code class="language-shell">https://github.com/prometheus-community/windows_exporter/releases
+</code></pre>
+<h3 id="2️⃣在注册表和服务数据库中创建windows_exporter服务项">2️⃣在注册表和服务数据库中创建windows_exporter服务项</h3>
+<pre><code class="language-shell">sc create windows_exporter binpath= &quot;D:\windows_exporter\windows_exporter-0.21.0-386.exe&quot; type= own start= auto displayname= windows_exporter
+#binpath后接的是.exe程序所在的目录及程序名称
+</code></pre>
+<h3 id="3️⃣启动注册的windows_export服务">3️⃣启动注册的windows_export服务</h3>
+<pre><code class="language-shell">输入启动参数：–telemetry.addr=127.0.0.1:9182
+此步可忽略
+</code></pre>
+<h3 id="4️⃣运行windows_exporter服务">4️⃣运行windows_exporter服务</h3>
+<pre><code class="language-shell">sc start windows_exporter
+</code></pre>
+<h3 id="5️⃣删除服务">5️⃣删除服务</h3>
+<pre><code class="language-shell">sc delete windows_exporter
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[nginx访问日志统计分析脚本]]></title>
         <id>https://slinjing.github.io/post/nginx-fang-wen-ri-zhi-tong-ji-fen-xi-jiao-ben/</id>
