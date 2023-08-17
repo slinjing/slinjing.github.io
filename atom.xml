@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>jsl的博客</title>
-    <updated>2023-08-17T07:25:17.455Z</updated>
+    <updated>2023-08-17T07:44:08.867Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,42 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, jsl的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[linux-firewalld管理]]></title>
+        <id>https://slinjing.github.io/post/linux-firewalld-guan-li/</id>
+        <link href="https://slinjing.github.io/post/linux-firewalld-guan-li/">
+        </link>
+        <updated>2023-08-17T07:39:39.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1️⃣开启-关闭-重启">1️⃣开启、关闭、重启</h3>
+<pre><code class="language-shell">systemctl start firewalld
+systemctl stop firewalld
+systemctl restart firewalld
+</code></pre>
+<h3 id="2️⃣是否自启">2️⃣是否自启</h3>
+<pre><code class="language-shell">systemctl enable firewalld
+systemctl disable firewalld
+</code></pre>
+<h3 id="3️⃣查看状态">3️⃣查看状态</h3>
+<pre><code class="language-shell">firewall-cmd --state
+systemctl status firewalld
+</code></pre>
+<h3 id="4️⃣开放端口">4️⃣开放端口</h3>
+<pre><code class="language-shell">firewall-cmd --zone=public --add-port=80/tcp --permanent （--permanent 永久生效，没有此参数重启后失效）
+</code></pre>
+<h3 id="5️⃣更新规则">5️⃣更新规则</h3>
+<pre><code class="language-shell">firewall-cmd --reload
+</code></pre>
+<h3 id="6️⃣查看规则">6️⃣查看规则</h3>
+<pre><code class="language-shell">firewall-cmd --zone=public --query-port=80/tcp
+</code></pre>
+<h3 id="7️⃣查看防火墙所有开放的端口">7️⃣查看防火墙所有开放的端口</h3>
+<pre><code class="language-shell">firewall-cmd --zone=public --list-ports
+</code></pre>
+<h3 id="8️⃣删除开放的端口">8️⃣删除开放的端口</h3>
+<pre><code class="language-shell">firewall-cmd --zone=public --remove-port=80/tcp --permanent
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[windows_exporter安装]]></title>
         <id>https://slinjing.github.io/post/windows_exporter-an-zhuang/</id>
