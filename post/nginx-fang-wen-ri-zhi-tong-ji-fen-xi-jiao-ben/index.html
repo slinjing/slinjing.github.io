@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>标签 | jsl的博客</title>
+<title>nginx访问日志统计分析脚本 | jsl的博客</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692255287053">
 
@@ -25,11 +25,15 @@
 
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <div class="main-content">
-        <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -97,28 +101,63 @@
     }
 </script>
 
-        <div class="post-container">
-            <div class="post-detail gt-bg-theme-color-first">
-                <article class="gt-post-content">
-                    <h2 class="post-title">标签</h2>
-        <div class="tags-container">
-            
-                <a class="tag gt-c-content-color-first gt-a-link"
-                   href="https://slinjing.github.io/tag/ZOaXKucd4/">#nginx</a>
-            
-                <a class="tag gt-c-content-color-first gt-a-link"
-                   href="https://slinjing.github.io/tag/SPakVW5DK/">#linux</a>
-            
-                <a class="tag gt-c-content-color-first gt-a-link"
-                   href="https://slinjing.github.io/tag/z-aiiL1nk/">#pormetheus</a>
-            
-                <a class="tag gt-c-content-color-first gt-a-link"
-                   href="https://slinjing.github.io/tag/1OylWyiCQ/">#docker</a>
-            
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    nginx访问日志统计分析脚本
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-08-17 ·
+                    </time>
+                    
+                        <a href="https://slinjing.github.io/tag/ZOaXKucd4/" class="post-tags">
+                            # nginx
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h3 id="使用说明">🔔使用说明</h3>
+<p>将以为下内容存为.sh文件，使用chmode +x  name.sh命令加可执行权限,示例：./cat_nginx.sh /usr/local/nginx/logs/access.log</p>
+<pre><code class="language-shell">#!/bin/bash
+# 日志格式: $remote_addr - $remote_user [$time_local] &quot;$request&quot; $status $body_bytes_sent &quot;$http_referer&quot; &quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;
+LOG_FILE=$1
+echo &quot;统计访问最多的10个IP&quot;
+awk '{a[$1]++}END{print &quot;UV:&quot;,length(a);for(v in a)print v,a[v]}' $LOG_FILE |sort -k2 -nr |head -10
+echo &quot;----------------------&quot;
+
+echo &quot;统计时间段访问最多的IP&quot;
+awk '$4&gt;=&quot;[01/Dec/2018:13:20:25&quot; &amp;&amp; $4&lt;=&quot;[27/Nov/2018:16:20:49&quot;{a[$1]++}END{for(v in a)print v,a[v]}' $LOG_FILE |sort -k2 -nr|head -10
+echo &quot;----------------------&quot;
+
+echo &quot;统计访问最多的10个页面&quot;
+awk '{a[$7]++}END{print &quot;PV:&quot;,length(a);for(v in a){if(a[v]&gt;10)print v,a[v]}}' $LOG_FILE |sort -k2 -nr
+echo &quot;----------------------&quot;
+
+echo &quot;统计访问页面状态码数量&quot;
+awk '{a[$7&quot; &quot;$9]++}END{for(v in a){if(a[v]&gt;5)print v,a[v]}}'
+</code></pre>
+
+                </div>
+            </article>
         </div>
-    </article>
-</div>
-</div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://slinjing.github.io/post/ying-pan-fen-qu-ji-gua-zai/" class="post-title gt-a-link">
+                    linux系统硬盘分区
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">温故而知新</div>
     <div class="social-container">
