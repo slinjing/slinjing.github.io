@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
-    <title>jsl</title>
-    <updated>2023-08-17T04:57:21.548Z</updated>
+    <title>jsl的博客</title>
+    <updated>2023-08-17T04:58:32.117Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2023, jsl</rights>
+    <rights>All rights reserved 2023, jsl的博客</rights>
     <entry>
         <title type="html"><![CDATA[硬盘分区及挂载]]></title>
         <id>https://slinjing.github.io/post/ying-pan-fen-qu-ji-gua-zai/</id>
