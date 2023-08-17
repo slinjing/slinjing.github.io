@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>jsl的博客</title>
-    <updated>2023-08-17T08:09:21.544Z</updated>
+    <updated>2023-08-17T08:11:36.693Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -41,10 +41,10 @@ yum -y install docker-ce
 <pre><code class="language-shell">systemctl start docker
 </code></pre>
 <h3 id="3️⃣镜像加速">3️⃣镜像加速</h3>
-<p>由于docker官方提供的镜像仓库地址在国外，所以我们一般都会使用国内的镜像仓库地址，我这里使用的是阿里云的。</p>
-<h4 id="1登录阿里云官网-控制台-容器-容器镜像服务acr-镜像工具-镜像加速器得到加速器地址">1.登录阿里云官网-控制台-容器-容器镜像服务ACR-镜像工具-镜像加速器得到加速器地址。</h4>
+<p>由于docker官方提供的镜像仓库地址在国外拉镜像比较慢，所以我们一般都会使用国内的镜像仓库地址，我使用的是阿里云的。</p>
+<h5 id="1登录阿里云官网-控制台-容器-容器镜像服务acr-镜像工具-镜像加速器得到加速器地址">1.登录阿里云官网-控制台-容器-容器镜像服务ACR-镜像工具-镜像加速器得到加速器地址。</h5>
 <figure data-type="image" tabindex="1"><img src="https://slinjing.github.io/post-images/1692259732595.png" alt="" loading="lazy"></figure>
-<h4 id="2再把得到的加速器地址写入到etcdockerdaemonjson就可以了">2.再把得到的加速器地址写入到/etc/docker/daemon.json就可以了。</h4>
+<h5 id="2再把得到的加速器地址写入到etcdockerdaemonjson就可以了">2.再把得到的加速器地址写入到/etc/docker/daemon.json就可以了。</h5>
 <pre><code class="language-bash">vim  /etc/docker/daemon.json
 或
 tee /etc/docker/daemon.json &lt;&lt;-'EOF'
