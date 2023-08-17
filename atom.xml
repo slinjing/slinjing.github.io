@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>我的博客</title>
-    <updated>2023-08-17T04:47:29.550Z</updated>
+    <updated>2023-08-17T04:50:14.542Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,41 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, 我的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[修改Docker默认存储路径]]></title>
+        <id>https://slinjing.github.io/post/xiu-gai-docker-mo-ren-cun-chu-lu-jing/</id>
+        <link href="https://slinjing.github.io/post/xiu-gai-docker-mo-ren-cun-chu-lu-jing/">
+        </link>
+        <updated>2023-08-17T04:48:49.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1查看默认路径">1.查看默认路径</h3>
+<pre><code>docker info | grep &quot;Docker Root Dir&quot;
+</code></pre>
+<h3 id="2停止docker服务">2.停止docker服务</h3>
+<pre><code>systemctl stop docker
+</code></pre>
+<h3 id="3目录迁移">3.目录迁移</h3>
+<pre><code>mkdir -p /home/docker
+rsync -avz /var/lib/docker /home/docker
+</code></pre>
+<h3 id="4编辑etcdockerdaemonjson文件">4.编辑/etc/docker/daemon.json文件</h3>
+<pre><code>{
+&quot;registry-mirrors&quot;: [&quot;https://b81vthfh.mirror.aliyuncs.com&quot;],
+&quot;data-root&quot;: &quot;/home/docker&quot;
+}
+</code></pre>
+<h3 id="5重启">5.重启</h3>
+<pre><code>systemctl restart docker
+</code></pre>
+<h3 id="6检查">6.检查</h3>
+<pre><code>docker info | grep &quot;Docker Root Dir&quot;
+docker ps -a
+docker images
+</code></pre>
+<h3 id="7删除varlibdocker目录中的文件">7.删除/var/lib/docker/目录中的文件</h3>
+<pre><code>rm -rf /var/lib/docker/*
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[docker-compose-nextcloud]]></title>
         <id>https://slinjing.github.io/post/docker-compose-nextcloud/</id>

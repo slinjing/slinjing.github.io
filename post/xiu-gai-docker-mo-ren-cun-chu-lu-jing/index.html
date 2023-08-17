@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>docker-compose-nextcloud | 我的博客</title>
+<title>修改Docker默认存储路径 | 我的博客</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692247788879">
 
@@ -105,7 +105,7 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    docker-compose-nextcloud
+                    修改Docker默认存储路径
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
@@ -118,95 +118,32 @@
                     
                 </div>
                 <div class="post-content">
-                    <pre><code class="language-shell">version: '3'
-services:
-  nextcloud_db:
-    image: mariadb:latest
-    container_name: nextcloud_db
-    restart: on-failure 
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
-    volumes:
-      - /home/nextcloud/nextcloud_db:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456Aa
-      - MYSQL_PASSWORD=123456Aa
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=nextcloud_db
-    networks:
-      nextcloud_net:
-
-  nextcloud:
-    image: nextcloud:latest
-    container_name: nextcloud
-    restart: on-failure
-    ports:
-      - 1080:80
-      - 1443:443
-    links:
-      - nextcloud_db
-      - redis
-    volumes:
-      - /home/nextcloud/nextcloud:/var/www/html
-      # - /home/nextcloud/data:/var/www/html/data
-      # - /home/nextcloud/config.php:/var/www/html/config/config.php
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Shanghai
-      - MYSQL_PASSWORD=123456Aa
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=nextcloud_db
-    depends_on:
-      - redis
-      - nextcloud_db
-      # - collabora
-      # 升级命令：docker exec -it nextcloud updater.phar（国内可能该命令升级不成功）
-      # 定时任务：
-      # */10 * * * * /usr/bin/docker exec -i nextcloud sudo -u abc php -f /config/www/nextcloud/cron.php
-    networks:
-      nextcloud_net:
-
-  # office组件
-  # collabora:
-  #   image: collabora/code
-  #   container_name: collabora
-  #   privileged: true
-  #   environment:
-  #     - TZ=Asia/Shanghai
-  #     - aliasgroup1=https://pan.inwo.win:7443
-  #     - username=admin
-  #     - password=Abc.123456
-  #     - dictionaries=de en es zh
-  #     # 扩展指令，关闭ssl验证和欢迎界面
-  #     - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:welcome.enable=false
-  #     - DONT_GEN_SSL_CERT=true
-  #   cap_add:
-  #     - MKNOD
-  #   ports:
-  #     - 9980:9980
-  #   restart: always
-  #   volumes:
-  #     - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
-
-  redis:
-    image: redis:latest
-    container_name: nextcloud_redis
-    restart: on-failure
-    ports:
-      - 6379:6379
-    volumes:
-      - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
-      - /home/nextcloud/redis/data:/data
-      - /home/nextcloud/redis/redis.conf:/etc/redis/redis.conf
-      - /home/nextcloud/redis/logs:/logs
-    command: redis-server /etc/redis/redis.conf --requirepass Abc.123456 --appendonly yes
-    networks:
-      nextcloud_net: 
-
-networks:
-  nextcloud_net:
+                    <h3 id="1查看默认路径">1.查看默认路径</h3>
+<pre><code>docker info | grep &quot;Docker Root Dir&quot;
+</code></pre>
+<h3 id="2停止docker服务">2.停止docker服务</h3>
+<pre><code>systemctl stop docker
+</code></pre>
+<h3 id="3目录迁移">3.目录迁移</h3>
+<pre><code>mkdir -p /home/docker
+rsync -avz /var/lib/docker /home/docker
+</code></pre>
+<h3 id="4编辑etcdockerdaemonjson文件">4.编辑/etc/docker/daemon.json文件</h3>
+<pre><code>{
+&quot;registry-mirrors&quot;: [&quot;https://b81vthfh.mirror.aliyuncs.com&quot;],
+&quot;data-root&quot;: &quot;/home/docker&quot;
+}
+</code></pre>
+<h3 id="5重启">5.重启</h3>
+<pre><code>systemctl restart docker
+</code></pre>
+<h3 id="6检查">6.检查</h3>
+<pre><code>docker info | grep &quot;Docker Root Dir&quot;
+docker ps -a
+docker images
+</code></pre>
+<h3 id="7删除varlibdocker目录中的文件">7.删除/var/lib/docker/目录中的文件</h3>
+<pre><code>rm -rf /var/lib/docker/*
 </code></pre>
 
                 </div>
@@ -216,8 +153,8 @@ networks:
         
             <div class="next-post">
                 <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://slinjing.github.io/post/nginx-xian-shi-wen-jian-mu-lu-bing-qie-she-zhi-xia-zai/" class="post-title gt-a-link">
-                    以nginx为文件服务器
+                <a href="https://slinjing.github.io/post/docker-compose-nextcloud/" class="post-title gt-a-link">
+                    docker-compose-nextcloud
                 </a>
             </div>
         
