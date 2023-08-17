@@ -4,9 +4,9 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>node_exporter部署 | jsl的博客</title>
+<title>node_exporter安装 | jsl的博客</title>
 
-<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692250377493">
+<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692251297490">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://slinjing.github.io/styles/main.css">
@@ -81,7 +81,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1692250377493"
+            <form id="gridea-search-form" style="position: relative" data-update="1692251297490"
                 action="/search/">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -105,7 +105,7 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    node_exporter部署
+                    node_exporter安装
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
@@ -118,14 +118,16 @@
                     
                 </div>
                 <div class="post-content">
-                    <h3 id="1️⃣上传安装包">1️⃣.上传安装包</h3>
-<h3 id="2️⃣解压压缩包">2️⃣.解压压缩包</h3>
+                    <h3 id="1️⃣下载安装包">1️⃣下载安装包</h3>
+<pre><code class="language-shell">wget https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
+</code></pre>
+<h3 id="2️⃣解压">2️⃣解压</h3>
 <pre><code class="language-shell">tar -xvf node_exporter-1.5.0.linux-amd64.tar.gz
 </code></pre>
-<h3 id="3️⃣将node_exporter二进制文件复制到-usrlocalbin路径下">3️⃣.将node_exporter二进制文件复制到 /usr/local/bin路径下</h3>
+<h3 id="3️⃣将node_exporter二进制文件复制到-usrlocalbin路径下">3️⃣将node_exporter二进制文件复制到 /usr/local/bin路径下</h3>
 <pre><code class="language-shell">cp node_exporter  /usr/local/bin/
 </code></pre>
-<h3 id="4️⃣创建systemd-service文件">4️⃣.创建systemd service文件</h3>
+<h3 id="4️⃣创建systemd-service文件">4️⃣创建systemd service文件</h3>
 <pre><code class="language-shell">vim /etc/systemd/system/node_exporter.service
 
 [Unit]
@@ -141,17 +143,18 @@ ExecStart=/usr/local/bin/node_exporter\
 [Install]
 WantedBy=multi-user.target
 </code></pre>
-<h3 id="5️⃣重载系统systemd配置">5️⃣.重载系统systemd配置</h3>
+<h3 id="5️⃣重载系统systemd配置">5️⃣重载系统systemd配置</h3>
 <pre><code class="language-shell">systemctl daemon-reload
 </code></pre>
-<h3 id="6️⃣启动服务并且设置服务自启">6️⃣.启动服务并且设置服务自启</h3>
+<h3 id="6️⃣启动服务并且设置服务自启">6️⃣启动服务并且设置服务自启</h3>
 <pre><code class="language-shell">systemctl start node_exporter
 systemctl enable node_exporter
 </code></pre>
-<h3 id="测试接口">测试接口</h3>
+<h3 id="7️⃣验证">7️⃣验证</h3>
 <pre><code class="language-shell">curl -s {{节点IP}}:9100/metrics
+有返回信息则说明成功
 </code></pre>
-<h3 id="自启动服务设置如下">自启动服务设置如下</h3>
+<h3 id="8️⃣命令拓展">8️⃣命令拓展</h3>
 <pre><code class="language-shell">systemctl start node_exporter  开启服务
 systemctl stop node_exporter   关闭服务
 systemctl restart node_exporter    重启服务
