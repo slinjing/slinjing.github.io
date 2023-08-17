@@ -6,7 +6,7 @@
 
 <title>修改Docker默认存储路径 | jsl的博客</title>
 
-<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692251297490">
+<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692253781933">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://slinjing.github.io/styles/main.css">
@@ -81,7 +81,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1692251297490"
+            <form id="gridea-search-form" style="position: relative" data-update="1692253781933"
                 action="/search/">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -118,31 +118,31 @@
                     
                 </div>
                 <div class="post-content">
-                    <h3 id="1查看默认路径">1.查看默认路径</h3>
+                    <h3 id="1️⃣查看默认路径">1️⃣查看默认路径</h3>
 <pre><code>docker info | grep &quot;Docker Root Dir&quot;
 </code></pre>
-<h3 id="2停止docker服务">2.停止docker服务</h3>
+<h3 id="2️⃣停止docker服务">2️⃣停止docker服务</h3>
 <pre><code>systemctl stop docker
 </code></pre>
-<h3 id="3目录迁移">3.目录迁移</h3>
+<h3 id="3️⃣目录迁移">3️⃣目录迁移</h3>
 <pre><code>mkdir -p /home/docker
 rsync -avz /var/lib/docker /home/docker
 </code></pre>
-<h3 id="4编辑etcdockerdaemonjson文件">4.编辑/etc/docker/daemon.json文件</h3>
+<h3 id="4️⃣编辑etcdockerdaemonjson文件">4️⃣编辑/etc/docker/daemon.json文件</h3>
 <pre><code>{
 &quot;registry-mirrors&quot;: [&quot;https://b81vthfh.mirror.aliyuncs.com&quot;],
 &quot;data-root&quot;: &quot;/home/docker&quot;
 }
 </code></pre>
-<h3 id="5重启">5.重启</h3>
+<h3 id="5️⃣重启">5️⃣重启</h3>
 <pre><code>systemctl restart docker
 </code></pre>
-<h3 id="6检查">6.检查</h3>
+<h3 id="6️⃣检查">6️⃣检查</h3>
 <pre><code>docker info | grep &quot;Docker Root Dir&quot;
 docker ps -a
 docker images
 </code></pre>
-<h3 id="7删除varlibdocker目录中的文件">7.删除/var/lib/docker/目录中的文件</h3>
+<h3 id="7️⃣删除varlibdocker目录中的文件">7️⃣删除/var/lib/docker/目录中的文件</h3>
 <pre><code>rm -rf /var/lib/docker/*
 </code></pre>
 
