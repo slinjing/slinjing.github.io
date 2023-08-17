@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>标签 | 我的博客</title>
+<title>node_exporter部署 | 我的博客</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692247936166">
 
@@ -25,11 +25,15 @@
 
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <div class="main-content">
-        <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -97,25 +101,79 @@
     }
 </script>
 
-        <div class="post-container">
-            <div class="post-detail gt-bg-theme-color-first">
-                <article class="gt-post-content">
-                    <h2 class="post-title">标签</h2>
-        <div class="tags-container">
-            
-                <a class="tag gt-c-content-color-first gt-a-link"
-                   href="https://slinjing.github.io/tag/z-aiiL1nk/">#pormetheus</a>
-            
-                <a class="tag gt-c-content-color-first gt-a-link"
-                   href="https://slinjing.github.io/tag/1OylWyiCQ/">#docker</a>
-            
-                <a class="tag gt-c-content-color-first gt-a-link"
-                   href="https://slinjing.github.io/tag/ZOaXKucd4/">#nginx</a>
-            
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    node_exporter部署
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-08-17 ·
+                    </time>
+                    
+                        <a href="https://slinjing.github.io/tag/z-aiiL1nk/" class="post-tags">
+                            # pormetheus
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h3 id="1上传安装包">1.上传安装包</h3>
+<h3 id="2解压压缩包">2.解压压缩包</h3>
+<p>tar -xvf node_exporter-1.5.0.linux-amd64.tar.gz</p>
+<h3 id="3将node_exporter二进制文件复制到-usrlocalbin路径下">3.将node_exporter二进制文件复制到 /usr/local/bin路径下</h3>
+<p>cp node_exporter  /usr/local/bin/</p>
+<h3 id="4创建systemd-service文件">4.创建systemd service文件</h3>
+<p>vim /etc/systemd/system/node_exporter.service</p>
+<p>[Unit]<br>
+Description=node_exporter<br>
+After=network.target<br>
+[Service]<br>
+ExecStart=/usr/local/bin/node_exporter<br>
+--web.listen-address=:9100<br>
+--collector.systemd<br>
+--collector.systemd.unit-whitelist=(sshd|nginx).service<br>
+--collector.processes<br>
+--collector.tcpstat<br>
+[Install]<br>
+WantedBy=multi-user.target</p>
+<h3 id="5重载系统systemd配置">5.重载系统systemd配置</h3>
+<p>systemctl daemon-reload</p>
+<h3 id="6启动服务并且设置服务自启">6.启动服务并且设置服务自启</h3>
+<p>systemctl start node_exporter<br>
+systemctl enable node_exporter</p>
+<h3 id="测试接口">测试接口</h3>
+<p>curl -s {{节点IP}}:9100/metrics</p>
+<h3 id="自启动服务设置如下">自启动服务设置如下</h3>
+<p>systemctl start node_exporter  开启服务<br>
+systemctl stop node_exporter   关闭服务<br>
+systemctl restart node_exporter    重启服务<br>
+systemctl status node_exporter    查看服务状态<br>
+systemctl enable node_exporter    将服务设置为开机自启动<br>
+systemctl disable node_exporter    禁止服务开机自启动<br>
+systemctl is-enabled node_exporter    查看服务是否开机启动<br>
+systemctl list-unit-files|grep enabled    查看开机启动的服务列表<br>
+systemctl --failed    查看启动失败的服务列表</p>
+
+                </div>
+            </article>
         </div>
-    </article>
-</div>
-</div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://slinjing.github.io/post/xiu-gai-docker-mo-ren-cun-chu-lu-jing/" class="post-title gt-a-link">
+                    修改Docker默认存储路径
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">温故而知新</div>
     <div class="social-container">
