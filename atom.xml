@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>jsl的博客</title>
-    <updated>2023-08-17T07:53:54.630Z</updated>
+    <updated>2023-08-17T08:01:09.134Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,56 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, jsl的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[docker安装]]></title>
+        <id>https://slinjing.github.io/post/docker-an-zhuang/</id>
+        <link href="https://slinjing.github.io/post/docker-an-zhuang/">
+        </link>
+        <updated>2023-08-17T07:54:28.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1️⃣前提条件">1️⃣前提条件</h3>
+<p>本文以centos为例，系统版本要求centos7以上，Linux内核为3.8以上，可用以下命令查看：</p>
+<pre><code class="language-shell">[root@master ~]# cat /etc/redhat-release
+CentOS Linux release 7.9.2009 (Core)
+[root@master ~]# uname -r
+3.10.0-1160.el7.x86_64
+</code></pre>
+<h3 id="2️⃣安装">2️⃣安装</h3>
+<h4 id="1-安装必要的系统工具">1. 安装必要的系统工具</h4>
+<pre><code class="language-shell">yum install -y yum-utils device-mapper-persistent-data lvm2
+</code></pre>
+<h4 id="2-添加软件源信息">2. 添加软件源信息</h4>
+<p>这里使用的是阿里云提供的镜像</p>
+<pre><code class="language-shell">yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+sed -i 's+download.docker.com+mirrors.aliyun.com/docker-ce+' /etc/yum.repos.d/docker-ce.repo
+
+</code></pre>
+<h4 id="3更新并安装docker">3.更新并安装docker</h4>
+<pre><code class="language-shell">yum makecache fast
+yum -y install docker-ce
+</code></pre>
+<h4 id="4启动docker">4.启动docker</h4>
+<pre><code class="language-shell">systemctl start docker
+</code></pre>
+<h3 id="3️⃣镜像加速">3️⃣镜像加速</h3>
+<p>由于docker官方提供的镜像仓库地址在国外，所以我们一般都会使用国内的镜像仓库地址，我这里使用的是阿里云的。</p>
+<h4 id="1登录阿里云官网-控制台-容器-容器镜像服务acr-镜像工具-镜像加速器得到加速器地址">1.登录阿里云官网-控制台-容器-容器镜像服务ACR-镜像工具-镜像加速器得到加速器地址。</h4>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/4368d0a10ee84c4db1f21ed100151164.png" alt="在这里插入图片描述" loading="lazy"></figure>
+<h4 id="2再把得到的加速器地址写入到etcdockerdaemonjson就可以了">2.再把得到的加速器地址写入到/etc/docker/daemon.json就可以了。</h4>
+<pre><code class="language-bash">vim  /etc/docker/daemon.json
+或
+tee /etc/docker/daemon.json &lt;&lt;-'EOF'
+{  
+&quot;registry-mirrors&quot;: [&quot;你的加速地址&quot;]
+}
+EOF
+systemctl daemon-reload
+systemctl restart docker
+</code></pre>
+<h4 id="3重启docker">3.重启docker</h4>
+<pre><code class="language-shell">systemctl restart docker
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[linux-firewalld管理]]></title>
         <id>https://slinjing.github.io/post/linux-firewalld-guan-li/</id>

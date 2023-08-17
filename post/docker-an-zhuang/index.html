@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>linux系统硬盘分区 | jsl的博客</title>
+<title>docker安装 | jsl的博客</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692259262237">
 
@@ -105,79 +105,60 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    linux系统硬盘分区
+                    docker安装
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
                         · 2023-08-17 ·
                     </time>
                     
-                        <a href="https://slinjing.github.io/tag/SPakVW5DK/" class="post-tags">
-                            # linux
+                        <a href="https://slinjing.github.io/tag/1OylWyiCQ/" class="post-tags">
+                            # docker
                         </a>
                     
                 </div>
                 <div class="post-content">
-                    <h3 id="1️⃣列出分区表">1️⃣列出分区表</h3>
-<pre><code class="language-shell">fdisk -l
-第一块磁盘为sda，第二块为sdb，以此类推
+                    <h3 id="1️⃣前提条件">1️⃣前提条件</h3>
+<p>本文以centos为例，系统版本要求centos7以上，Linux内核为3.8以上，可用以下命令查看：</p>
+<pre><code class="language-shell">[root@master ~]# cat /etc/redhat-release
+CentOS Linux release 7.9.2009 (Core)
+[root@master ~]# uname -r
+3.10.0-1160.el7.x86_64
 </code></pre>
-<h3 id="2️⃣开始分区">2️⃣开始分区</h3>
-<pre><code class="language-shell">fdisk /dev/sdb 
-
-执行命令后会看到下面的提示：
-Command (m for help)：n/e  输入n或e(n为新建分区，e为扩展分区)
-Partition type:    --分区类型
-   p   primary (0 primary, 0 extended, 4 free)   --主分区
-   e   extended          --扩展分区
-Select (default p): e
-Partition number (1-4, default 1):    --分区编号，默认1
-First sector (2048-2097151, default 2048):  --第一个扇区，默认2048
-Using default value 2048    
-Last sector, +sectors or +size{K,M,G} (2048-2097151, default 2097151):
---最后一个扇区，不输入的话就是分配整改扇区，需要调整的话输入自己要分配的容量，如：+500G
-Using default value 2097151
-
-看到下面提示就说明成功了
-Partition 1 of type Extended and of size 1023 MiB is set
-
-Command (m for help): w  --输入w写入就完事
-
-会看到提示：
-The partition table has been altered! --分区表已被更改！
-Calling ioctl() to re-read partition table.  --调用ioctl（）来重新读取分区表。
-Syncing disks.  --正在同步磁盘。
+<h3 id="2️⃣安装">2️⃣安装</h3>
+<h4 id="1-安装必要的系统工具">1. 安装必要的系统工具</h4>
+<pre><code class="language-shell">yum install -y yum-utils device-mapper-persistent-data lvm2
 </code></pre>
-<h3 id="3️⃣格式化新分区">3️⃣格式化新分区</h3>
-<pre><code class="language-shell">mkfs -t ext4 /dev/sdb    # ext4格式
-mkfs.xfs -t /dev/sda       #xfs格式
-</code></pre>
-<h3 id="4️⃣挂载">4️⃣挂载</h3>
-<pre><code class="language-shell">mkdir /home/sd1    --创建挂载点
-mount -t ext4 /dev/sdb /home/sd1   --挂载到/home/sd1
-df -h /home/sd1     --查看是否挂载成功
+<h4 id="2-添加软件源信息">2. 添加软件源信息</h4>
+<p>这里使用的是阿里云提供的镜像</p>
+<pre><code class="language-shell">yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+sed -i 's+download.docker.com+mirrors.aliyun.com/docker-ce+' /etc/yum.repos.d/docker-ce.repo
 
---显示已成功：
-/dev/sdc        976M  2.6M  907M   1% /home/sd1
 </code></pre>
-<h3 id="5️⃣永久挂载">5️⃣永久挂载</h3>
-<pre><code class="language-shell">--用blkid命令拿到UUID：blkid   
-/dev/sdb: UUID=&quot;cc6e8689-d83f-4221-b260-4a81e70d85a4&quot; TYPE=&quot;ext4&quot;
---写入配置文件：vim /etc/fstab
-UUID=&quot;9e86f962-12f0-4842-a4a9-ecc01a0726a1&quot; /home/sd1 ext4 defaults 0 0
+<h4 id="3更新并安装docker">3.更新并安装docker</h4>
+<pre><code class="language-shell">yum makecache fast
+yum -y install docker-ce
+</code></pre>
+<h4 id="4启动docker">4.启动docker</h4>
+<pre><code class="language-shell">systemctl start docker
+</code></pre>
+<h3 id="3️⃣镜像加速">3️⃣镜像加速</h3>
+<p>由于docker官方提供的镜像仓库地址在国外，所以我们一般都会使用国内的镜像仓库地址，我这里使用的是阿里云的。</p>
+<h4 id="1登录阿里云官网-控制台-容器-容器镜像服务acr-镜像工具-镜像加速器得到加速器地址">1.登录阿里云官网-控制台-容器-容器镜像服务ACR-镜像工具-镜像加速器得到加速器地址。</h4>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/4368d0a10ee84c4db1f21ed100151164.png" alt="在这里插入图片描述" loading="lazy"></figure>
+<h4 id="2再把得到的加速器地址写入到etcdockerdaemonjson就可以了">2.再把得到的加速器地址写入到/etc/docker/daemon.json就可以了。</h4>
+<pre><code class="language-bash">vim  /etc/docker/daemon.json
 或
-/dev/sdb /home/sd1 ext4 defaults 0 0
---刷新挂载:mount -a
+tee /etc/docker/daemon.json &lt;&lt;-'EOF'
+{  
+&quot;registry-mirrors&quot;: [&quot;你的加速地址&quot;]
+}
+EOF
+systemctl daemon-reload
+systemctl restart docker
 </code></pre>
-<h3 id="6️⃣卸载">6️⃣卸载</h3>
-<pre><code class="language-shell">umount /home/sd1
-以写入配置文件方式挂载时此命令无效，重启后会重新挂载，需要注释掉配置文件中匹配的行
-</code></pre>
-<h3 id="7️⃣读写权限">7️⃣读写权限</h3>
-<pre><code class="language-shell">将挂载设备改为只读：
-mount -o ro /dev/sdb /home/sd1
-将挂载设备改为可读写：
-mount -o rw /dev/sdb /home/sd1
+<h4 id="3重启docker">3.重启docker</h4>
+<pre><code class="language-shell">systemctl restart docker
 </code></pre>
 
                 </div>
@@ -187,8 +168,8 @@ mount -o rw /dev/sdb /home/sd1
         
             <div class="next-post">
                 <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://slinjing.github.io/post/node_exporter-bu-shu/" class="post-title gt-a-link">
-                    node_exporter安装
+                <a href="https://slinjing.github.io/post/linux-firewalld-guan-li/" class="post-title gt-a-link">
+                    linux-firewalld管理
                 </a>
             </div>
         
