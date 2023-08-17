@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>jsl的博客</title>
-    <updated>2023-08-17T05:17:29.108Z</updated>
+    <updated>2023-08-17T05:33:00.122Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -82,14 +82,14 @@ mount -o rw /dev/sdb /home/sd1</p>
         <link href="https://slinjing.github.io/post/node_exporter-bu-shu/">
         </link>
         <updated>2023-08-17T04:51:29.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1上传安装包">1.上传安装包</h3>
-<h3 id="2解压压缩包">2.解压压缩包</h3>
+        <content type="html"><![CDATA[<h3 id="1️⃣上传安装包">1️⃣.上传安装包</h3>
+<h3 id="2️⃣解压压缩包">2️⃣.解压压缩包</h3>
 <pre><code class="language-shell">tar -xvf node_exporter-1.5.0.linux-amd64.tar.gz
 </code></pre>
-<h3 id="3将node_exporter二进制文件复制到-usrlocalbin路径下">3.将node_exporter二进制文件复制到 /usr/local/bin路径下</h3>
+<h3 id="3️⃣将node_exporter二进制文件复制到-usrlocalbin路径下">3️⃣.将node_exporter二进制文件复制到 /usr/local/bin路径下</h3>
 <pre><code class="language-shell">cp node_exporter  /usr/local/bin/
 </code></pre>
-<h3 id="4创建systemd-service文件">4.创建systemd service文件</h3>
+<h3 id="4️⃣创建systemd-service文件">4️⃣.创建systemd service文件</h3>
 <pre><code class="language-shell">vim /etc/systemd/system/node_exporter.service
 
 [Unit]
@@ -105,10 +105,10 @@ ExecStart=/usr/local/bin/node_exporter\
 [Install]
 WantedBy=multi-user.target
 </code></pre>
-<h3 id="5重载系统systemd配置">5.重载系统systemd配置</h3>
+<h3 id="5️⃣重载系统systemd配置">5️⃣.重载系统systemd配置</h3>
 <pre><code class="language-shell">systemctl daemon-reload
 </code></pre>
-<h3 id="6启动服务并且设置服务自启">6.启动服务并且设置服务自启</h3>
+<h3 id="6️⃣启动服务并且设置服务自启">6️⃣.启动服务并且设置服务自启</h3>
 <pre><code class="language-shell">systemctl start node_exporter
 systemctl enable node_exporter
 </code></pre>
