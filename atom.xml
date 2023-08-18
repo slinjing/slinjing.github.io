@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>slinjing</title>
-    <updated>2023-08-18T06:30:43.065Z</updated>
+    <updated>2023-08-18T11:11:52.057Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,126 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, slinjing</rights>
+    <entry>
+        <title type="html"><![CDATA[redis集群]]></title>
+        <id>https://slinjing.github.io/post/redis-ji-qun/</id>
+        <link href="https://slinjing.github.io/post/redis-ji-qun/">
+        </link>
+        <updated>2023-08-18T10:57:14.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1️⃣docker-redisyml">1️⃣docker-redis.yml</h3>
+<pre><code class="language-yml">version: &quot;3&quot;
+services:
+  redis01:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6701:6379&quot;
+      - &quot;16701:16379&quot;
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+      - appendonly=yes
+      - cluster-enabled=yes
+    volumes:
+      - /home/redis/6701:/data
+    command: redis-server --cluster-announce-port 6701 --cluster-announce-bus-port 16701 --appendonly yes  --cluster-enabled yes
+
+
+  redis02:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6702:6379&quot;
+      - &quot;16702:16379&quot;      
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+      - appendonly=yes
+      - cluster-enabled=yes
+    volumes:
+      - /home/redis/6702:/data
+    command: redis-server --cluster-announce-port 6702 --cluster-announce-bus-port 16702 --appendonly yes  --cluster-enabled yes   
+
+  redis03:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6703:6379&quot;
+      - &quot;16703:16379&quot;
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server --cluster-announce-port 6703 --cluster-announce-bus-port 16703 --appendonly yes  --cluster-enabled yes
+    volumes:
+      - /home/redis/6703:/data
+
+
+  redis04:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6704:6379&quot;
+      - &quot;16704:16379&quot;
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server --cluster-announce-port 6704 --cluster-announce-bus-port 16704 --appendonly yes  --cluster-enabled yes
+    volumes:
+      - /home/redis/6704:/data
+
+
+  redis05:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6705:6379&quot;
+      - &quot;16705:16379&quot;
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server --cluster-announce-port 6705 --cluster-announce-bus-port 16705 --appendonly yes  --cluster-enabled yes
+    volumes:
+      - /home/redis/6705:/data
+
+
+  redis06:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6706:6379&quot;
+      - &quot;16706:16379&quot;
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server --cluster-announce-port 6706 --cluster-announce-bus-port 16706 --appendonly yes  --cluster-enabled yes 
+    volumes:
+      - /home/redis/6706:/data
+</code></pre>
+<h3 id="2️⃣进入任意redis容器">2️⃣进入任意redis容器</h3>
+<pre><code class="language-shell">docker exec -it  redis-redis01-1 /bin/bash
+</code></pre>
+<h3 id="3️⃣构建主从关系">3️⃣构建主从关系</h3>
+<pre><code class="language-shell">redis-cli --cluster create 192.168.32.146:6701 192.168.32.146:6702 192.168.32.146:6703 192.168.32.146:6704 192.168.32.146:6705 192.168.32.146:6706 --cluster-replicas 1
+</code></pre>
+<p><img src="https://slinjing.github.io/post-images/1692356561441.png" alt="" loading="lazy"><br>
+<img src="https://slinjing.github.io/post-images/1692356596105.png" alt="" loading="lazy"></p>
+<h3 id="4️⃣查看集群状态">4️⃣查看集群状态</h3>
+<pre><code class="language-shell">root@redis:/data# redis-cli
+127.0.0.1:6379&gt; CLUSTER INFO
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://slinjing.github.io/post-images/1692356678194.png" alt="" loading="lazy"></figure>
+<h3 id="5️⃣查看节点状态">5️⃣查看节点状态</h3>
+<pre><code class="language-shell">127.0.0.1:6379&gt; CLUSTER NODES
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://slinjing.github.io/post-images/1692356877466.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[redis安装]]></title>
         <id>https://slinjing.github.io/post/redis-an-zhuang/</id>
@@ -470,56 +590,6 @@ mkdir /var/ftp/centos7              #在ftp根目录下创建目录centos7
 cp -rf /mnt/* /var/ftp/centos7/     #将镜像文件强制复制到centos7目录中，可加&amp;让它自己后台运行
 systemctl start vsftpd              #开启vsftpd服务
 systemctl enable vsftpd  
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[docker安装]]></title>
-        <id>https://slinjing.github.io/post/docker-an-zhuang/</id>
-        <link href="https://slinjing.github.io/post/docker-an-zhuang/">
-        </link>
-        <updated>2023-08-17T07:54:28.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1️⃣前提条件">1️⃣前提条件</h3>
-<p>本文以centos为例，系统版本要求centos7以上，Linux内核为3.8以上，可用以下命令查看：</p>
-<pre><code class="language-shell">[root@master ~]# cat /etc/redhat-release
-CentOS Linux release 7.9.2009 (Core)
-[root@master ~]# uname -r
-3.10.0-1160.el7.x86_64
-</code></pre>
-<h3 id="2️⃣安装">2️⃣安装</h3>
-<h4 id="1-安装必要的系统工具">1. 安装必要的系统工具</h4>
-<pre><code class="language-shell">yum install -y yum-utils device-mapper-persistent-data lvm2
-</code></pre>
-<h4 id="2-添加软件源信息">2. 添加软件源信息</h4>
-<p>这里使用的是阿里云提供的镜像</p>
-<pre><code class="language-shell">yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-sed -i 's+download.docker.com+mirrors.aliyun.com/docker-ce+' /etc/yum.repos.d/docker-ce.repo
-
-</code></pre>
-<h4 id="3更新并安装docker">3.更新并安装docker</h4>
-<pre><code class="language-shell">yum makecache fast
-yum -y install docker-ce
-</code></pre>
-<h4 id="4启动docker">4.启动docker</h4>
-<pre><code class="language-shell">systemctl start docker
-</code></pre>
-<h3 id="3️⃣镜像加速">3️⃣镜像加速</h3>
-<p>由于docker官方提供的镜像仓库地址在国外拉镜像比较慢，所以我们一般都会使用国内的镜像仓库地址，我使用的是阿里云的。</p>
-<h5 id="1登录阿里云官网-控制台-容器-容器镜像服务acr-镜像工具-镜像加速器得到加速器地址">1.登录阿里云官网-控制台-容器-容器镜像服务ACR-镜像工具-镜像加速器得到加速器地址。</h5>
-<figure data-type="image" tabindex="1"><img src="https://slinjing.github.io/post-images/1692260057426.png" alt="" loading="lazy"></figure>
-<h5 id="2再把得到的加速器地址写入到etcdockerdaemonjson就可以了">2.再把得到的加速器地址写入到/etc/docker/daemon.json就可以了。</h5>
-<pre><code class="language-bash">vim  /etc/docker/daemon.json
-或
-tee /etc/docker/daemon.json &lt;&lt;-'EOF'
-{  
-&quot;registry-mirrors&quot;: [&quot;你的加速地址&quot;]
-}
-EOF
-systemctl daemon-reload
-systemctl restart docker
-</code></pre>
-<h4 id="3重启docker">3.重启docker</h4>
-<pre><code class="language-shell">systemctl restart docker
 </code></pre>
 ]]></content>
     </entry>

@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>docker-compose-nextcloud | slinjing</title>
+<title>redis集群 | slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692357049245">
 
@@ -105,111 +105,131 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    docker-compose-nextcloud
+                    redis集群
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
-                        · 2023-08-17 ·
+                        · 2023-08-18 ·
                     </time>
                     
-                        <a href="https://slinjing.github.io/tag/1OylWyiCQ/" class="post-tags">
-                            # docker
+                        <a href="https://slinjing.github.io/tag/O_2iBKLRR/" class="post-tags">
+                            # redis
                         </a>
                     
                 </div>
                 <div class="post-content">
-                    <h3 id="使用说明">🔔使用说明</h3>
-<p>将以为下内容存为docker-compose文件，使用docker-compose -f  docker-compose-file.yml up -d命令启动</p>
-<pre><code class="language-yml">version: '3'
+                    <h3 id="1️⃣docker-redisyml">1️⃣docker-redis.yml</h3>
+<pre><code class="language-yml">version: &quot;3&quot;
 services:
-  nextcloud_db:
-    image: mariadb:latest
-    container_name: nextcloud_db
-    restart: on-failure 
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
-    volumes:
-      - /home/nextcloud/nextcloud_db:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456Aa
-      - MYSQL_PASSWORD=123456Aa
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=nextcloud_db
-    networks:
-      nextcloud_net:
-
-  nextcloud:
-    image: nextcloud:latest
-    container_name: nextcloud
-    restart: on-failure
+  redis01:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
     ports:
-      - 1080:80
-      - 1443:443
-    links:
-      - nextcloud_db
-      - redis
-    volumes:
-      - /home/nextcloud/nextcloud:/var/www/html
-      # - /home/nextcloud/data:/var/www/html/data
-      # - /home/nextcloud/config.php:/var/www/html/config/config.php
+      - &quot;6701:6379&quot;
+      - &quot;16701:16379&quot;
+    privileged: true
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=Asia/Shanghai
-      - MYSQL_PASSWORD=123456Aa
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=nextcloud_db
-    depends_on:
-      - redis
-      - nextcloud_db
-      # - collabora
-      # 升级命令：docker exec -it nextcloud updater.phar（国内可能该命令升级不成功）
-      # 定时任务：
-      # */10 * * * * /usr/bin/docker exec -i nextcloud sudo -u abc php -f /config/www/nextcloud/cron.php
-    networks:
-      nextcloud_net:
-
-  # office组件
-  # collabora:
-  #   image: collabora/code
-  #   container_name: collabora
-  #   privileged: true
-  #   environment:
-  #     - TZ=Asia/Shanghai
-  #     - aliasgroup1=https://pan.inwo.win:7443
-  #     - username=admin
-  #     - password=Abc.123456
-  #     - dictionaries=de en es zh
-  #     # 扩展指令，关闭ssl验证和欢迎界面
-  #     - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:welcome.enable=false
-  #     - DONT_GEN_SSL_CERT=true
-  #   cap_add:
-  #     - MKNOD
-  #   ports:
-  #     - 9980:9980
-  #   restart: always
-  #   volumes:
-  #     - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
-
-  redis:
-    image: redis:latest
-    container_name: nextcloud_redis
-    restart: on-failure
-    ports:
-      - 6379:6379
+      - appendonly=yes
+      - cluster-enabled=yes
     volumes:
-      - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
-      - /home/nextcloud/redis/data:/data
-      - /home/nextcloud/redis/redis.conf:/etc/redis/redis.conf
-      - /home/nextcloud/redis/logs:/logs
-    command: redis-server /etc/redis/redis.conf --requirepass Abc.123456 --appendonly yes
-    networks:
-      nextcloud_net: 
+      - /home/redis/6701:/data
+    command: redis-server --cluster-announce-port 6701 --cluster-announce-bus-port 16701 --appendonly yes  --cluster-enabled yes
 
-networks:
-  nextcloud_net:
+
+  redis02:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6702:6379&quot;
+      - &quot;16702:16379&quot;      
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+      - appendonly=yes
+      - cluster-enabled=yes
+    volumes:
+      - /home/redis/6702:/data
+    command: redis-server --cluster-announce-port 6702 --cluster-announce-bus-port 16702 --appendonly yes  --cluster-enabled yes   
+
+  redis03:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6703:6379&quot;
+      - &quot;16703:16379&quot;
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server --cluster-announce-port 6703 --cluster-announce-bus-port 16703 --appendonly yes  --cluster-enabled yes
+    volumes:
+      - /home/redis/6703:/data
+
+
+  redis04:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6704:6379&quot;
+      - &quot;16704:16379&quot;
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server --cluster-announce-port 6704 --cluster-announce-bus-port 16704 --appendonly yes  --cluster-enabled yes
+    volumes:
+      - /home/redis/6704:/data
+
+
+  redis05:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6705:6379&quot;
+      - &quot;16705:16379&quot;
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server --cluster-announce-port 6705 --cluster-announce-bus-port 16705 --appendonly yes  --cluster-enabled yes
+    volumes:
+      - /home/redis/6705:/data
+
+
+  redis06:
+    image: 'redis:6.2.4'
+    restart: &quot;always&quot;
+    hostname: &quot;redis&quot;
+    ports:
+      - &quot;6706:6379&quot;
+      - &quot;16706:16379&quot;
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    command: redis-server --cluster-announce-port 6706 --cluster-announce-bus-port 16706 --appendonly yes  --cluster-enabled yes 
+    volumes:
+      - /home/redis/6706:/data
 </code></pre>
+<h3 id="2️⃣进入任意redis容器">2️⃣进入任意redis容器</h3>
+<pre><code class="language-shell">docker exec -it  redis-redis01-1 /bin/bash
+</code></pre>
+<h3 id="3️⃣构建主从关系">3️⃣构建主从关系</h3>
+<pre><code class="language-shell">redis-cli --cluster create 192.168.32.146:6701 192.168.32.146:6702 192.168.32.146:6703 192.168.32.146:6704 192.168.32.146:6705 192.168.32.146:6706 --cluster-replicas 1
+</code></pre>
+<p><img src="https://slinjing.github.io/post-images/1692356561441.png" alt="" loading="lazy"><br>
+<img src="https://slinjing.github.io/post-images/1692356596105.png" alt="" loading="lazy"></p>
+<h3 id="4️⃣查看集群状态">4️⃣查看集群状态</h3>
+<pre><code class="language-shell">root@redis:/data# redis-cli
+127.0.0.1:6379&gt; CLUSTER INFO
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://slinjing.github.io/post-images/1692356678194.png" alt="" loading="lazy"></figure>
+<h3 id="5️⃣查看节点状态">5️⃣查看节点状态</h3>
+<pre><code class="language-shell">127.0.0.1:6379&gt; CLUSTER NODES
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://slinjing.github.io/post-images/1692356877466.png" alt="" loading="lazy"></figure>
 
                 </div>
             </article>
@@ -218,8 +238,8 @@ networks:
         
             <div class="next-post">
                 <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://slinjing.github.io/post/nginx-xian-shi-wen-jian-mu-lu-bing-qie-she-zhi-xia-zai/" class="post-title gt-a-link">
-                    以nginx为文件服务器
+                <a href="https://slinjing.github.io/post/redis-an-zhuang/" class="post-title gt-a-link">
+                    redis安装
                 </a>
             </div>
         
