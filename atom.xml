@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>slinjing</title>
-    <updated>2023-08-18T01:15:43.322Z</updated>
+    <updated>2023-08-18T01:24:01.727Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,23 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, slinjing</rights>
+    <entry>
+        <title type="html"><![CDATA[linux系统查看本机外网ip的方法]]></title>
+        <id>https://slinjing.github.io/post/linux-xi-tong-cha-kan-ben-ji-wai-wang-ip-de-fang-fa/</id>
+        <link href="https://slinjing.github.io/post/linux-xi-tong-cha-kan-ben-ji-wai-wang-ip-de-fang-fa/">
+        </link>
+        <updated>2023-08-18T01:17:45.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1️⃣">1️⃣</h3>
+<pre><code class="language-shell">curl ifconfig.me
+</code></pre>
+<h3 id="2️⃣">2️⃣</h3>
+<pre><code class="language-shell">wget -qO- ifconfig.io/ip
+</code></pre>
+<h3 id="3️⃣">3️⃣</h3>
+<pre><code class="language-shell">curl -s https://ipinfo.io/ip
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[docker-compose-portainer]]></title>
         <id>https://slinjing.github.io/post/docker-compose-portainer/</id>
@@ -389,7 +406,7 @@ systemctl --failed    查看启动失败的服务列表
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[修改Docker默认存储路径]]></title>
+        <title type="html"><![CDATA[修改docker默认存储路径]]></title>
         <id>https://slinjing.github.io/post/xiu-gai-docker-mo-ren-cun-chu-lu-jing/</id>
         <link href="https://slinjing.github.io/post/xiu-gai-docker-mo-ren-cun-chu-lu-jing/">
         </link>
@@ -420,106 +437,6 @@ docker images
 </code></pre>
 <h3 id="7️⃣删除varlibdocker目录中的文件">7️⃣删除/var/lib/docker/目录中的文件</h3>
 <pre><code>rm -rf /var/lib/docker/*
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[docker-compose-nextcloud]]></title>
-        <id>https://slinjing.github.io/post/docker-compose-nextcloud/</id>
-        <link href="https://slinjing.github.io/post/docker-compose-nextcloud/">
-        </link>
-        <updated>2023-08-17T04:39:40.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="使用说明">🔔使用说明</h3>
-<p>将以为下内容存为docker-compose文件，使用docker-compose -f  docker-compose-file.yml up -d命令启动</p>
-<pre><code class="language-yml">version: '3'
-services:
-  nextcloud_db:
-    image: mariadb:latest
-    container_name: nextcloud_db
-    restart: on-failure 
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
-    volumes:
-      - /home/nextcloud/nextcloud_db:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456Aa
-      - MYSQL_PASSWORD=123456Aa
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=nextcloud_db
-    networks:
-      nextcloud_net:
-
-  nextcloud:
-    image: nextcloud:latest
-    container_name: nextcloud
-    restart: on-failure
-    ports:
-      - 1080:80
-      - 1443:443
-    links:
-      - nextcloud_db
-      - redis
-    volumes:
-      - /home/nextcloud/nextcloud:/var/www/html
-      # - /home/nextcloud/data:/var/www/html/data
-      # - /home/nextcloud/config.php:/var/www/html/config/config.php
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Shanghai
-      - MYSQL_PASSWORD=123456Aa
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=nextcloud_db
-    depends_on:
-      - redis
-      - nextcloud_db
-      # - collabora
-      # 升级命令：docker exec -it nextcloud updater.phar（国内可能该命令升级不成功）
-      # 定时任务：
-      # */10 * * * * /usr/bin/docker exec -i nextcloud sudo -u abc php -f /config/www/nextcloud/cron.php
-    networks:
-      nextcloud_net:
-
-  # office组件
-  # collabora:
-  #   image: collabora/code
-  #   container_name: collabora
-  #   privileged: true
-  #   environment:
-  #     - TZ=Asia/Shanghai
-  #     - aliasgroup1=https://pan.inwo.win:7443
-  #     - username=admin
-  #     - password=Abc.123456
-  #     - dictionaries=de en es zh
-  #     # 扩展指令，关闭ssl验证和欢迎界面
-  #     - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:welcome.enable=false
-  #     - DONT_GEN_SSL_CERT=true
-  #   cap_add:
-  #     - MKNOD
-  #   ports:
-  #     - 9980:9980
-  #   restart: always
-  #   volumes:
-  #     - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
-
-  redis:
-    image: redis:latest
-    container_name: nextcloud_redis
-    restart: on-failure
-    ports:
-      - 6379:6379
-    volumes:
-      - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
-      - /home/nextcloud/redis/data:/data
-      - /home/nextcloud/redis/redis.conf:/etc/redis/redis.conf
-      - /home/nextcloud/redis/logs:/logs
-    command: redis-server /etc/redis/redis.conf --requirepass Abc.123456 --appendonly yes
-    networks:
-      nextcloud_net: 
-
-networks:
-  nextcloud_net:
 </code></pre>
 ]]></content>
     </entry>

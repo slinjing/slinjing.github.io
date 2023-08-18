@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>docker-compose-portainer | slinjing</title>
+<title>linux系统查看本机外网ip的方法 | slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692321749477">
 
@@ -105,34 +105,27 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    docker-compose-portainer
+                    linux系统查看本机外网ip的方法
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
                         · 2023-08-18 ·
                     </time>
                     
-                        <a href="https://slinjing.github.io/tag/1OylWyiCQ/" class="post-tags">
-                            # docker
+                        <a href="https://slinjing.github.io/tag/SPakVW5DK/" class="post-tags">
+                            # linux
                         </a>
                     
                 </div>
                 <div class="post-content">
-                    <pre><code class="language-yml">version: '3.1'
-services:
- portainer:
-  image: portainer
-  container_name: portainer
-  hostname: portainer
-  restart: always
-  volumes:
-    - &quot;/var/run/docker.sock:/var/run/docker.sock&quot;
-  environment:
-   TZ: Asia/Shanghai
-   LANG: en_US.UTF-8
-  ports:
-    - &quot;9443:9443&quot;
-    - &quot;9000:9000&quot;
+                    <h3 id="1️⃣">1️⃣</h3>
+<pre><code class="language-shell">curl ifconfig.me
+</code></pre>
+<h3 id="2️⃣">2️⃣</h3>
+<pre><code class="language-shell">wget -qO- ifconfig.io/ip
+</code></pre>
+<h3 id="3️⃣">3️⃣</h3>
+<pre><code class="language-shell">curl -s https://ipinfo.io/ip
 </code></pre>
 
                 </div>
@@ -142,8 +135,8 @@ services:
         
             <div class="next-post">
                 <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://slinjing.github.io/post/pxe-fu-wu-qi-pei-zhi/" class="post-title gt-a-link">
-                    PXE服务器配置
+                <a href="https://slinjing.github.io/post/docker-compose-portainer/" class="post-title gt-a-link">
+                    docker-compose-portainer
                 </a>
             </div>
         
