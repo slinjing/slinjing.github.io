@@ -6,7 +6,7 @@
 
 <title>mysql安装 | slinjing</title>
 
-<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692338745093">
+<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692340103730">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://slinjing.github.io/styles/main.css">
@@ -81,7 +81,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1692338745093"
+            <form id="gridea-search-form" style="position: relative" data-update="1692340103730"
                 action="/search/">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -144,16 +144,16 @@
 GRANT ALL PRIVILEGES ON . TO 'root'@'%' IDENTIFIED BY 'YIERSAN123pp@' WITH GRANT OPTION;   #5.7
 FLUSH PRIVILEGES;
 </code></pre>
-<h3 id="9️⃣其他版本">9️⃣其他版本</h3>
-<pre><code>以上步骤默认安装最新版本
-查询repo仓库中包含的mysql版本
+<h3 id="9️⃣其他">9️⃣其他</h3>
+<pre><code class="language-shell"># 以上步骤默认安装最新版本
+# 查询repo仓库中包含的mysql版本
 yum repolist enabled | grep mysql
-安装其他版本
+# 安装其他版本
 yum-config-manager --disable mysql80-community
 yum-config-manager --enable mysql57-community
-若执行命令提示：-bash: yum-config-manager: command not found
+# 若执行命令提示：-bash: yum-config-manager: command not found
 yum -y install yum-utils
-通过修改/etc/yum.repos.d/mysql-community.repo文件选择版本
+# 通过修改/etc/yum.repos.d/mysql-community.repo文件选择版本
 enabled=0  #禁用
 enabled=1  #启用
 </code></pre>

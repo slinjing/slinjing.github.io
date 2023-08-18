@@ -1,11 +1,10 @@
 <html>
-
 <head>
     <meta charset="utf-8" />
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>友情链接 | slinjing</title>
+<title>redis安装 | slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692340103730">
 
@@ -26,12 +25,15 @@
 
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
 </head>
-
 <body>
 <div class="main gt-bg-theme-color-first">
-        <div class="main-content">
-            <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -99,28 +101,116 @@
     }
 </script>
 
-            <div class="post-container">
-                <div class="post-detail">
-                    <article>
-                        <!-- <div class="post-content-wrapper"> -->
-                            <div class="post-content">
-                                <div class="friends-desc">
-                                    
-                                </div>
-                                <h3 id="linklist">友链列表</h3>
-                                
-                                    
-                                
-                            </div>
-                        <!-- </div> -->
-                    </article>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    redis安装
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-08-18 ·
+                    </time>
+                    
+                        <a href="https://slinjing.github.io/tag/O_2iBKLRR/" class="post-tags">
+                            # redis
+                        </a>
+                    
                 </div>
-                
+                <div class="post-content">
+                    <h3 id="1️⃣安装gcc编译环境">1️⃣安装gcc编译环境</h3>
+<pre><code class="language-shell">yum -y install gcc-c++
+</code></pre>
+<h3 id="2️⃣安装redis">2️⃣安装redis</h3>
+<pre><code class="language-shell">wget https://codeload.github.com/redis/redis/tar.gz/refs/tags/7.0.11
+tar -zxvf 7.0.11
+make &amp;&amp; make install
+</code></pre>
+<h3 id="3️⃣修改配置文件redisconf">3️⃣修改配置文件：redis.conf</h3>
+<pre><code class="language-shell">protected-mode yes   #改为：protected-mode no
+daemonize no   #改为：daemonize yes
+bind 127.0.0.1 -::1    #注释掉
+requirepass foobared   #设置密码
+</code></pre>
+<h3 id="4️⃣工具">4️⃣工具</h3>
+<pre><code class="language-shell">ll /usr/local/bin/redis*
+# redis-benchmark     --性能测试工具
+# redis-check-aof     --修复有问题的AOF文件
+# redis-check-rdb     --修复有问题的dump.rdb文件     
+# redis-cli           --客户端
+# redis-sentinel      --redis集群使用
+# redis-server        --redis服务器启动命令
+</code></pre>
+<h3 id="5️⃣使用">5️⃣使用</h3>
+<pre><code class="language-shell">#启动：
+redis-server ./redis.conf
+#连接：
+redis-cli -a 123456 -p 6379
+127.0.0.1:6379&gt; ping
+PONG
+127.0.0.1:6379&gt; set k1 helloworld
+OK
+127.0.0.1:6379&gt; get k1
+&quot;helloworld&quot;
+#关闭：
+127.0.0.1:6379&gt; SHUTDOWN
+redis-cli -a 123456 -p 6379 shutdown
+#查看当前库所有key:
+127.0.0.1:6379&gt; keys *
+#判断某个key是否存在:
+127.0.0.1:6379&gt; EXISTS k1
+#查看key类型：
+127.0.0.1:6379&gt; typt k1
+</code></pre>
+<h3 id="6️⃣性能测试">6️⃣性能测试</h3>
+<pre><code class="language-shell">/usr/local/bin/redis-benchmark -a 123456 -n 10000 -q
+#参数说明:
+# -h	指定服务器主机名	127.0.0.1
+# -p	指定服务器端口	6379
+# -s	指定服务器 socket	
+# -c	指定并发连接数	50
+# -n	指定请求数	10000
+# -d	以字节的形式指定 SET/GET 值的数据大小	2
+# -k	1=keep alive 0=reconnect	1
+# -r	SET/GET/INCR 使用随机 key, SADD 使用随机值	
+# -P	通过管道传输 &lt;numreq&gt; 请求	1
+# -q	强制退出 redis。仅显示 query/sec 值	
+# --csv	以 CSV 格式输出
+# -t	仅运行以逗号分隔的测试命令列表
+</code></pre>
+<h3 id="7️⃣redis-数据备份与恢复">7️⃣Redis 数据备份与恢复</h3>
+<pre><code class="language-shell">#创建当前数据库的备份
+redis 127.0.0.1:6379&gt; SAVE 
+OK
+#该命令将在 redis 安装目录中创建dump.rdb文件。
+#恢复数据
+#如果需要恢复数据，只需将备份文件 (dump.rdb) 移动到 redis 安装目录并启动服务即可。
+#获取 redis 目录可以使用 CONFIG 命令，如下所示： 
+redis 127.0.0.1:6379&gt; CONFIG GET dir
+1) &quot;dir&quot;
+2) &quot;/usr/local/redis/bin&quot;
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://slinjing.github.io/post/mysql-zhu-cong-fu-zhi/" class="post-title gt-a-link">
+                    mysql主从复制
+                </a>
             </div>
+        
 
+        
 
+        
 
-            <div class="site-footer gt-c-content-color-first">
+        
+
+        <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">温故而知新</div>
     <div class="social-container">
         
@@ -154,8 +244,7 @@
   hljs.highlightAll()
 </script>
 
-        </div>
     </div>
+</div>
 </body>
-
 </html>

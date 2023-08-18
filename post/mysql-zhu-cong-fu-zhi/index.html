@@ -1,11 +1,10 @@
 <html>
-
 <head>
     <meta charset="utf-8" />
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>友情链接 | slinjing</title>
+<title>mysql主从复制 | slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692340103730">
 
@@ -26,12 +25,15 @@
 
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
 </head>
-
 <body>
 <div class="main gt-bg-theme-color-first">
-        <div class="main-content">
-            <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -99,28 +101,79 @@
     }
 </script>
 
-            <div class="post-container">
-                <div class="post-detail">
-                    <article>
-                        <!-- <div class="post-content-wrapper"> -->
-                            <div class="post-content">
-                                <div class="friends-desc">
-                                    
-                                </div>
-                                <h3 id="linklist">友链列表</h3>
-                                
-                                    
-                                
-                            </div>
-                        <!-- </div> -->
-                    </article>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    mysql主从复制
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-08-18 ·
+                    </time>
+                    
+                        <a href="https://slinjing.github.io/tag/nKdi_m5vh/" class="post-tags">
+                            # mysql
+                        </a>
+                    
                 </div>
-                
+                <div class="post-content">
+                    <h2 id="️版本57">⭐️版本：5.7</h2>
+<h3 id="1️⃣master配置">1️⃣master配置</h3>
+<pre><code class="language-shell">vim /etc/my.cnf
+log-bin=mysql-bin
+server-id=146
+</code></pre>
+<pre><code class="language-sql">mysql&gt;GRANT REPLICATION SLAVE ON *.* TO 'slave'@'192.168.33.199'  IDENTIFIED BY 'Slave@123';
+mysql&gt;FLUSH PRIVILEGES;
+mysql&gt;SHOW MASTER STATUS;
+</code></pre>
+<h3 id="2️⃣slave配置">2️⃣slave配置</h3>
+<pre><code class="language-shell">vim /etc/my.cnf
+log-bin=mysql-bin
+server-id=199
+binlog-ignore-db=mysql
+</code></pre>
+<pre><code class="language-sql">mysql&gt;CHANGE MASTER TO MASTER_HOST = '192.168.32.146',
+MASTER_PORT = 3306,
+MASTER_USER = 'slave',
+MASTER_PASSWORD = 'Slave@123',
+MASTER_LOG_FILE = 'mysql-bin.000002',
+MASTER_LOG_POS = 1719;
+mysql&gt;START SLAVE;
+mysql&gt;SHOW SLAVE STATUS\G
+
+显示：
+Slave_IO_Running: Yes
+Slave_SQL_Running: Yes
+停止主从复制
+STOP SLAVE;
+重启主从复制
+RESTART SLAVE;
+重置
+RESET  SLAVE;
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://slinjing.github.io/post/mysql-an-zhuang/" class="post-title gt-a-link">
+                    mysql安装
+                </a>
             </div>
+        
 
+        
 
+        
 
-            <div class="site-footer gt-c-content-color-first">
+        
+
+        <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">温故而知新</div>
     <div class="social-container">
         
@@ -154,8 +207,7 @@
   hljs.highlightAll()
 </script>
 
-        </div>
     </div>
+</div>
 </body>
-
 </html>
