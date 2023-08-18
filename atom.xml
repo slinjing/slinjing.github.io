@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>slinjing</title>
-    <updated>2023-08-17T11:41:02.800Z</updated>
+    <updated>2023-08-18T01:15:43.322Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,30 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, slinjing</rights>
+    <entry>
+        <title type="html"><![CDATA[docker-compose-portainer]]></title>
+        <id>https://slinjing.github.io/post/docker-compose-portainer/</id>
+        <link href="https://slinjing.github.io/post/docker-compose-portainer/">
+        </link>
+        <updated>2023-08-18T01:08:50.000Z</updated>
+        <content type="html"><![CDATA[<pre><code class="language-yml">version: '3.1'
+services:
+ portainer:
+  image: portainer
+  container_name: portainer
+  hostname: portainer
+  restart: always
+  volumes:
+    - &quot;/var/run/docker.sock:/var/run/docker.sock&quot;
+  environment:
+   TZ: Asia/Shanghai
+   LANG: en_US.UTF-8
+  ports:
+    - &quot;9443:9443&quot;
+    - &quot;9000:9000&quot;
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[PXE服务器配置]]></title>
         <id>https://slinjing.github.io/post/pxe-fu-wu-qi-pei-zhi/</id>
@@ -407,7 +431,7 @@ docker images
         <updated>2023-08-17T04:39:40.000Z</updated>
         <content type="html"><![CDATA[<h3 id="使用说明">🔔使用说明</h3>
 <p>将以为下内容存为docker-compose文件，使用docker-compose -f  docker-compose-file.yml up -d命令启动</p>
-<pre><code class="language-shell">version: '3'
+<pre><code class="language-yml">version: '3'
 services:
   nextcloud_db:
     image: mariadb:latest
@@ -497,42 +521,6 @@ services:
 networks:
   nextcloud_net:
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[以nginx为文件服务器]]></title>
-        <id>https://slinjing.github.io/post/nginx-xian-shi-wen-jian-mu-lu-bing-qie-she-zhi-xia-zai/</id>
-        <link href="https://slinjing.github.io/post/nginx-xian-shi-wen-jian-mu-lu-bing-qie-she-zhi-xia-zai/">
-        </link>
-        <updated>2023-08-17T01:50:28.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1️⃣修改配置文件">1️⃣修改配置文件</h3>
-<pre><code class="language-shell">server {
-        listen       80;
-        server_name  域名或者IP; 
-        charset utf-8,gbk; # 避免中文乱码
-        location /var/logs/ {  # 可以指定也可以全部，全部就用 /
-            alias /var/logs/; #指定实际目录绝对路径
-            autoindex on;  # 开启目录浏览功能
-            autoindex_exact_size on; #默认开启为on,显示出文件的确切大小，单位是bytes。关闭为off，显示出文件大概大小，单位为kB，MB或GB
-            autoindex_localtime on; #默认为off,显示的文件时间为GMT时间。改为on后，显示的文件时间为文件的服务器时间
-            # 判断文件是否以下这些方式结尾的，是的话可以下载
-            if ($request_filename ~* ^.*?.(txt|doc|pdf|rar|gz|zip|docx|exe|xlsx|ppt|pptx)$){
-            add_header Content-Disposition attachment;
-            }
-        }
-        error_page 404 /404.html;
-            location = /40x.html {
-        }
-        error_page 500 502 503 504 /50x.html;
-            location = /50x.html {
-        }
-}
-</code></pre>
-<h3 id="2️⃣修改配置后重新加载生效">2️⃣修改配置后重新加载生效</h3>
-<pre><code class="language-shell">nginx -s reload
-</code></pre>
-<h3 id="3️⃣效果">3️⃣效果</h3>
-<figure data-type="image" tabindex="1"><img src="https://slinjing.github.io/post-images/1692237881236.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>

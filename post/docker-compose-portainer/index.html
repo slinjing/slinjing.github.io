@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
     <meta charset="utf-8" />
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>搜索 | slinjing</title>
+<title>docker-compose-portainer | slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692321311212">
 
@@ -27,21 +25,15 @@
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.0/dist/fuse.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ejs@3.1.3/ejs.min.js"></script>
-    <script src="https://slinjing.github.io/media/gridea-search/gridea-search.js"></script>
-    <script src="https://slinjing.github.io/media/gridea-search/result-template.ejs" type="text/ejs"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
 </head>
-
 <body>
-    <style>
-        .searched-keyword {
-            background-color: yellow;
-            color: red;
-        }
-    </style>
-    <div class="main gt-bg-theme-color-first">
-        <nav class="navbar navbar-expand-lg">
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -109,16 +101,59 @@
     }
 </script>
 
-        <div id="gridea-search-result" data-update="1692321311212">
-            <div class="searching" style="font-size: 18px; margin-top: 50px;">
-                <i class="fa fa-sync-alt fa-spin"></i>&nbsp;&nbsp;搜索中......
-                <br><br>
-                <span style="font-size: 65%; color: #aaa">第一次搜索可能需要耗费较长时间构建索引，请耐心等待...</span>
-            </div>
-            <div class="no-result" style="display:none; font-size: 20px; margin-top: 50px;">
-                <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;未搜索到相关文章，请更换关键词
-            </div>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    docker-compose-portainer
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-08-18 ·
+                    </time>
+                    
+                        <a href="https://slinjing.github.io/tag/1OylWyiCQ/" class="post-tags">
+                            # docker
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <pre><code class="language-yml">version: '3.1'
+services:
+ portainer:
+  image: portainer
+  container_name: portainer
+  hostname: portainer
+  restart: always
+  volumes:
+    - &quot;/var/run/docker.sock:/var/run/docker.sock&quot;
+  environment:
+   TZ: Asia/Shanghai
+   LANG: en_US.UTF-8
+  ports:
+    - &quot;9443:9443&quot;
+    - &quot;9000:9000&quot;
+</code></pre>
+
+                </div>
+            </article>
         </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://slinjing.github.io/post/pxe-fu-wu-qi-pei-zhi/" class="post-title gt-a-link">
+                    PXE服务器配置
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">温故而知新</div>
     <div class="social-container">
@@ -154,6 +189,6 @@
 </script>
 
     </div>
+</div>
 </body>
-
 </html>
