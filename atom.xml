@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>slinjing</title>
-    <updated>2023-08-18T03:05:40.609Z</updated>
+    <updated>2023-08-18T03:39:54.156Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,48 +10,6 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, slinjing</rights>
-    <entry>
-        <title type="html"><![CDATA[docker-compose-zentao]]></title>
-        <id>https://slinjing.github.io/post/docker-pull-hubzentaonetappzentaolatest/</id>
-        <link href="https://slinjing.github.io/post/docker-pull-hubzentaonetappzentaolatest/">
-        </link>
-        <updated>2023-08-18T01:52:01.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1️⃣">1️⃣</h3>
-<pre><code class="language-shell">docker pull hub.zentao.net/app/zentao:latest
-</code></pre>
-<h3 id="2️⃣">2️⃣</h3>
-<pre><code class="language-shell">vim docker-compose-zentao.yml
-</code></pre>
-<pre><code class="language-yml">version: &quot;3&quot;
-services:
-  zentao:
-    container_name: &quot;zentao&quot;
-    image: easysoft/zentao:12.3.3
-    ports:
-      - &quot;9999:80&quot;
-      - &quot;3226:3306&quot;
-    volumes:
-      - /home/zentao/zentaopms:/www/zentaopms
-      - /home/zentao/mysqldata:/var/lib/mysql
-    networks:
-      zentao_net:
-        ipv4_address: 10.10.10.10
-    mac_address: 02:42:ac:11:00:00
-    restart: on-failure
-    environment:
-       MYSQL_ROOT_PASSWORD: 123456Aa
-networks:
-  zentao_net:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 10.10.10.0/24
-</code></pre>
-<h3 id="3️⃣">3️⃣</h3>
-<pre><code class="language-shell">docker-compose -f docker-compose-zentao.yml up -d
-</code></pre>
-]]></content>
-    </entry>
     <entry>
         <title type="html"><![CDATA[grafana安装]]></title>
         <id>https://slinjing.github.io/post/grafana/</id>
@@ -425,6 +383,75 @@ echo &quot;----------------------&quot;
 
 echo &quot;统计访问页面状态码数量&quot;
 awk '{a[$7&quot; &quot;$9]++}END{for(v in a){if(a[v]&gt;5)print v,a[v]}}'
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[linux系统硬盘分区]]></title>
+        <id>https://slinjing.github.io/post/ying-pan-fen-qu-ji-gua-zai/</id>
+        <link href="https://slinjing.github.io/post/ying-pan-fen-qu-ji-gua-zai/">
+        </link>
+        <updated>2023-08-17T04:54:54.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1️⃣列出分区表">1️⃣列出分区表</h3>
+<pre><code class="language-shell">fdisk -l
+第一块磁盘为sda，第二块为sdb，以此类推
+</code></pre>
+<h3 id="2️⃣开始分区">2️⃣开始分区</h3>
+<pre><code class="language-shell">fdisk /dev/sdb 
+
+执行命令后会看到下面的提示：
+Command (m for help)：n/e  输入n或e(n为新建分区，e为扩展分区)
+Partition type:    --分区类型
+   p   primary (0 primary, 0 extended, 4 free)   --主分区
+   e   extended          --扩展分区
+Select (default p): e
+Partition number (1-4, default 1):    --分区编号，默认1
+First sector (2048-2097151, default 2048):  --第一个扇区，默认2048
+Using default value 2048    
+Last sector, +sectors or +size{K,M,G} (2048-2097151, default 2097151):
+--最后一个扇区，不输入的话就是分配整改扇区，需要调整的话输入自己要分配的容量，如：+500G
+Using default value 2097151
+
+看到下面提示就说明成功了
+Partition 1 of type Extended and of size 1023 MiB is set
+
+Command (m for help): w  --输入w写入就完事
+
+会看到提示：
+The partition table has been altered! --分区表已被更改！
+Calling ioctl() to re-read partition table.  --调用ioctl（）来重新读取分区表。
+Syncing disks.  --正在同步磁盘。
+</code></pre>
+<h3 id="3️⃣格式化新分区">3️⃣格式化新分区</h3>
+<pre><code class="language-shell">mkfs -t ext4 /dev/sdb    # ext4格式
+mkfs.xfs -t /dev/sda       #xfs格式
+</code></pre>
+<h3 id="4️⃣挂载">4️⃣挂载</h3>
+<pre><code class="language-shell">mkdir /home/sd1    --创建挂载点
+mount -t ext4 /dev/sdb /home/sd1   --挂载到/home/sd1
+df -h /home/sd1     --查看是否挂载成功
+
+--显示已成功：
+/dev/sdc        976M  2.6M  907M   1% /home/sd1
+</code></pre>
+<h3 id="5️⃣永久挂载">5️⃣永久挂载</h3>
+<pre><code class="language-shell">--用blkid命令拿到UUID：blkid   
+/dev/sdb: UUID=&quot;cc6e8689-d83f-4221-b260-4a81e70d85a4&quot; TYPE=&quot;ext4&quot;
+--写入配置文件：vim /etc/fstab
+UUID=&quot;9e86f962-12f0-4842-a4a9-ecc01a0726a1&quot; /home/sd1 ext4 defaults 0 0
+或
+/dev/sdb /home/sd1 ext4 defaults 0 0
+--刷新挂载:mount -a
+</code></pre>
+<h3 id="6️⃣卸载">6️⃣卸载</h3>
+<pre><code class="language-shell">umount /home/sd1
+以写入配置文件方式挂载时此命令无效，重启后会重新挂载，需要注释掉配置文件中匹配的行
+</code></pre>
+<h3 id="7️⃣读写权限">7️⃣读写权限</h3>
+<pre><code class="language-shell">将挂载设备改为只读：
+mount -o ro /dev/sdb /home/sd1
+将挂载设备改为可读写：
+mount -o rw /dev/sdb /home/sd1
 </code></pre>
 ]]></content>
     </entry>
