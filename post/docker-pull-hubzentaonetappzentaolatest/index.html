@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>windows_exporter安装 | slinjing</title>
+<title>docker-compose-zentao | slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692327936764">
 
@@ -105,35 +105,52 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    windows_exporter安装
+                    docker-compose-zentao
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
-                        · 2023-08-17 ·
+                        · 2023-08-18 ·
                     </time>
                     
-                        <a href="https://slinjing.github.io/tag/z-aiiL1nk/" class="post-tags">
-                            # pormetheus
+                        <a href="https://slinjing.github.io/tag/1OylWyiCQ/" class="post-tags">
+                            # docker
                         </a>
                     
                 </div>
                 <div class="post-content">
-                    <h3 id="1️⃣安装包下载">1️⃣安装包下载</h3>
-<pre><code class="language-shell">https://github.com/prometheus-community/windows_exporter/releases
+                    <h3 id="1️⃣">1️⃣</h3>
+<pre><code class="language-shell">docker pull hub.zentao.net/app/zentao:latest
 </code></pre>
-<h3 id="2️⃣在注册表和服务数据库中创建windows_exporter服务项">2️⃣在注册表和服务数据库中创建windows_exporter服务项</h3>
-<pre><code class="language-shell">sc create windows_exporter binpath= &quot;D:\windows_exporter\windows_exporter-0.21.0-386.exe&quot; type= own start= auto displayname= windows_exporter
-#binpath后接的是.exe程序所在的目录及程序名称
+<h3 id="2️⃣">2️⃣</h3>
+<pre><code class="language-shell">vim docker-compose-zentao.yml
 </code></pre>
-<h3 id="3️⃣启动注册的windows_export服务">3️⃣启动注册的windows_export服务</h3>
-<pre><code class="language-shell">输入启动参数：–telemetry.addr=127.0.0.1:9182
-此步可忽略
+<pre><code class="language-yml">version: &quot;3&quot;
+services:
+  zentao:
+    container_name: &quot;zentao&quot;
+    image: easysoft/zentao:12.3.3
+    ports:
+      - &quot;9999:80&quot;
+      - &quot;3226:3306&quot;
+    volumes:
+      - /home/zentao/zentaopms:/www/zentaopms
+      - /home/zentao/mysqldata:/var/lib/mysql
+    networks:
+      zentao_net:
+        ipv4_address: 10.10.10.10
+    mac_address: 02:42:ac:11:00:00
+    restart: on-failure
+    environment:
+       MYSQL_ROOT_PASSWORD: 123456Aa
+networks:
+  zentao_net:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.10.10.0/24
 </code></pre>
-<h3 id="4️⃣运行windows_exporter服务">4️⃣运行windows_exporter服务</h3>
-<pre><code class="language-shell">sc start windows_exporter
-</code></pre>
-<h3 id="5️⃣删除服务">5️⃣删除服务</h3>
-<pre><code class="language-shell">sc delete windows_exporter
+<h3 id="3️⃣">3️⃣</h3>
+<pre><code class="language-shell">docker-compose -f docker-compose-zentao.yml up -d
 </code></pre>
 
                 </div>
@@ -143,8 +160,8 @@
         
             <div class="next-post">
                 <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://slinjing.github.io/post/nginx-fang-wen-ri-zhi-tong-ji-fen-xi-jiao-ben/" class="post-title gt-a-link">
-                    nginx访问日志统计分析脚本
+                <a href="https://slinjing.github.io/post/grafana/" class="post-title gt-a-link">
+                    grafana安装
                 </a>
             </div>
         
