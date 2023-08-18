@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>slinjing</title>
-    <updated>2023-08-18T05:52:38.982Z</updated>
+    <updated>2023-08-18T06:05:56.556Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,53 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, slinjing</rights>
+    <entry>
+        <title type="html"><![CDATA[mysql安装]]></title>
+        <id>https://slinjing.github.io/post/mysql-an-zhuang/</id>
+        <link href="https://slinjing.github.io/post/mysql-an-zhuang/">
+        </link>
+        <updated>2023-08-18T05:59:03.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1️⃣下载mysql-yum源">1️⃣下载mysql-yum源</h3>
+<pre><code class="language-shell">wget  https://dev.mysql.com/get/mysql80-community-release-el7-7.noarch.rpm
+</code></pre>
+<h3 id="2️⃣安装mysql-yum源">2️⃣安装mysql-yum源</h3>
+<pre><code class="language-shell">yum -y install  mysql80-community-release-el7-7.noarch.rpm
+</code></pre>
+<h3 id="3️⃣生成缓存">3️⃣生成缓存</h3>
+<pre><code class="language-shell">yum clean all &amp;&amp; yum makecache
+</code></pre>
+<h3 id="4️⃣安装mysql">4️⃣安装mysql</h3>
+<pre><code class="language-shell">yum -y  install mysql-community-server
+</code></pre>
+<h3 id="5️⃣启动">5️⃣启动</h3>
+<pre><code class="language-shell">systemctl start mysqld
+</code></pre>
+<h3 id="6️⃣查看密码">6️⃣查看密码</h3>
+<pre><code class="language-shell">grep 'temporary password' /var/log/mysqld.log
+</code></pre>
+<h3 id="7️⃣修改密码">7️⃣修改密码</h3>
+<pre><code class="language-sql">ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
+</code></pre>
+<h3 id="8️⃣登录授权">8️⃣登录授权</h3>
+<pre><code class="language-sql">UPDATE user SET host='%' WHERE user = 'root';      #8.0以上使用
+GRANT ALL PRIVILEGES ON . TO 'root'@'%' IDENTIFIED BY 'YIERSAN123pp@' WITH GRANT OPTION;   #5.7
+FLUSH PRIVILEGES;
+</code></pre>
+<h3 id="9️⃣其他版本">9️⃣其他版本</h3>
+<pre><code>以上步骤默认安装最新版本
+查询repo仓库中包含的mysql版本
+yum repolist enabled | grep mysql
+安装其他版本
+yum-config-manager --disable mysql80-community
+yum-config-manager --enable mysql57-community
+若执行命令提示：-bash: yum-config-manager: command not found
+yum -y install yum-utils
+通过修改/etc/yum.repos.d/mysql-community.repo文件选择版本
+enabled=0  #禁用
+enabled=1  #启用
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[docker-compose-zentao]]></title>
         <id>https://slinjing.github.io/post/docker-pull-hubzentaonetappzentaolatest/</id>
@@ -411,34 +458,6 @@ systemctl status firewalld
 </code></pre>
 <h3 id="5️⃣删除服务">5️⃣删除服务</h3>
 <pre><code class="language-shell">sc delete windows_exporter
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[nginx访问日志统计分析脚本]]></title>
-        <id>https://slinjing.github.io/post/nginx-fang-wen-ri-zhi-tong-ji-fen-xi-jiao-ben/</id>
-        <link href="https://slinjing.github.io/post/nginx-fang-wen-ri-zhi-tong-ji-fen-xi-jiao-ben/">
-        </link>
-        <updated>2023-08-17T06:48:43.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="使用说明">🔔使用说明</h3>
-<p>将以为下内容存为.sh文件，使用chmode +x  name.sh命令加可执行权限,示例：./cat_nginx.sh /usr/local/nginx/logs/access.log</p>
-<pre><code class="language-shell">#!/bin/bash
-# 日志格式: $remote_addr - $remote_user [$time_local] &quot;$request&quot; $status $body_bytes_sent &quot;$http_referer&quot; &quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;
-LOG_FILE=$1
-echo &quot;统计访问最多的10个IP&quot;
-awk '{a[$1]++}END{print &quot;UV:&quot;,length(a);for(v in a)print v,a[v]}' $LOG_FILE |sort -k2 -nr |head -10
-echo &quot;----------------------&quot;
-
-echo &quot;统计时间段访问最多的IP&quot;
-awk '$4&gt;=&quot;[01/Dec/2018:13:20:25&quot; &amp;&amp; $4&lt;=&quot;[27/Nov/2018:16:20:49&quot;{a[$1]++}END{for(v in a)print v,a[v]}' $LOG_FILE |sort -k2 -nr|head -10
-echo &quot;----------------------&quot;
-
-echo &quot;统计访问最多的10个页面&quot;
-awk '{a[$7]++}END{print &quot;PV:&quot;,length(a);for(v in a){if(a[v]&gt;10)print v,a[v]}}' $LOG_FILE |sort -k2 -nr
-echo &quot;----------------------&quot;
-
-echo &quot;统计访问页面状态码数量&quot;
-awk '{a[$7&quot; &quot;$9]++}END{for(v in a){if(a[v]&gt;5)print v,a[v]}}'
 </code></pre>
 ]]></content>
     </entry>

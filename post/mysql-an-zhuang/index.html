@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>prometheus安装 | slinjing</title>
+<title>mysql安装 | slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692338745093">
 
@@ -105,82 +105,57 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    prometheus安装
+                    mysql安装
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
                         · 2023-08-18 ·
                     </time>
                     
-                        <a href="https://slinjing.github.io/tag/z-aiiL1nk/" class="post-tags">
-                            # pormetheus
+                        <a href="https://slinjing.github.io/tag/nKdi_m5vh/" class="post-tags">
+                            # mysql
                         </a>
                     
                 </div>
                 <div class="post-content">
-                    <h3 id="1️⃣下载解压">1️⃣下载解压</h3>
-<pre><code class="language-shell">wget https://github.com/prometheus/prometheus/releases/download/v2.45.0-rc.0/prometheus-2.45.0-rc.0.linux-amd64.tar.gz
-tar -zxvf prometheus-2.43.0-rc.0.linux-amd64.tar.gz -C /home/
-mv prometheus-2.43.0-rc.0.linux-amd64 prometheus
+                    <h3 id="1️⃣下载mysql-yum源">1️⃣下载mysql-yum源</h3>
+<pre><code class="language-shell">wget  https://dev.mysql.com/get/mysql80-community-release-el7-7.noarch.rpm
 </code></pre>
-<h3 id="2️⃣prometheusservice">2️⃣prometheus.service</h3>
-<pre><code class="language-shell">cat /etc/systemd/system/prometheus.service
--------------------------------------
-[Unit]
-Description=prometheus
-After=network-online.target
-
-[Service]
-User=root
-Restart=on-failure
-ExecStart=/home/prometheus/prometheus --config.file=/home/prometheus/prometheus.yml
-
-[Install]
-WantedBy=multi-user.target
--------------------------------------
-systemctl daemon-reload
-systemctl enable prometheus.service
-systemctl start prometheus.service
-systemctl status prometheus.service
-netstat -tuplan | grep 9090
+<h3 id="2️⃣安装mysql-yum源">2️⃣安装mysql-yum源</h3>
+<pre><code class="language-shell">yum -y install  mysql80-community-release-el7-7.noarch.rpm
 </code></pre>
-<h3 id="3️⃣prometheusyml">3️⃣prometheus.yml</h3>
-<pre><code class="language-shell">global:
-  scrape_interval: 15s 
-  evaluation_interval: 15s 
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-          - 192.168.0.1:9093
-rule_files:
-    - &quot;/etc/prometheus/rules/*.yml&quot;
-scrape_configs:
-    metrics_path defaults to '/metrics'
-  - job_name: 'linux'
-    file_sd_configs:
-    - files:
-      - 'sd_config/linux.yml'
-      refresh_interval: 30m  # 每隔30分钟检查一次
-
-  - job_name: 'windows'
-    file_sd_configs:
-    - files:
-      - 'sd_config/windows.yml'
-      refresh_interval: 30m  
+<h3 id="3️⃣生成缓存">3️⃣生成缓存</h3>
+<pre><code class="language-shell">yum clean all &amp;&amp; yum makecache
 </code></pre>
-<h3 id="4️⃣linuxyml">4️⃣linux.yml</h3>
-<pre><code class="language-yml">- targets:
-  - 192.168.0.2:9100
-  - 192.168.0.3:9100
-  - 192.168.0.4:9100
-  -......
+<h3 id="4️⃣安装mysql">4️⃣安装mysql</h3>
+<pre><code class="language-shell">yum -y  install mysql-community-server
 </code></pre>
-<h3 id="5️⃣检查配置文件">5️⃣检查配置文件</h3>
-<pre><code class="language-shell">./promtool check config prometheus.yml  
+<h3 id="5️⃣启动">5️⃣启动</h3>
+<pre><code class="language-shell">systemctl start mysqld
 </code></pre>
-<h3 id="6️⃣热加载配置">6️⃣热加载配置：</h3>
-<pre><code class="language-shell">curl -X POST http://192.168.32.146:9090/-/reload
+<h3 id="6️⃣查看密码">6️⃣查看密码</h3>
+<pre><code class="language-shell">grep 'temporary password' /var/log/mysqld.log
+</code></pre>
+<h3 id="7️⃣修改密码">7️⃣修改密码</h3>
+<pre><code class="language-sql">ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
+</code></pre>
+<h3 id="8️⃣登录授权">8️⃣登录授权</h3>
+<pre><code class="language-sql">UPDATE user SET host='%' WHERE user = 'root';      #8.0以上使用
+GRANT ALL PRIVILEGES ON . TO 'root'@'%' IDENTIFIED BY 'YIERSAN123pp@' WITH GRANT OPTION;   #5.7
+FLUSH PRIVILEGES;
+</code></pre>
+<h3 id="9️⃣其他版本">9️⃣其他版本</h3>
+<pre><code>以上步骤默认安装最新版本
+查询repo仓库中包含的mysql版本
+yum repolist enabled | grep mysql
+安装其他版本
+yum-config-manager --disable mysql80-community
+yum-config-manager --enable mysql57-community
+若执行命令提示：-bash: yum-config-manager: command not found
+yum -y install yum-utils
+通过修改/etc/yum.repos.d/mysql-community.repo文件选择版本
+enabled=0  #禁用
+enabled=1  #启用
 </code></pre>
 
                 </div>
@@ -190,8 +165,8 @@ scrape_configs:
         
             <div class="next-post">
                 <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://slinjing.github.io/post/linux-xi-tong-cha-kan-ben-ji-wai-wang-ip-de-fang-fa/" class="post-title gt-a-link">
-                    linux系统查看本机外网ip的方法
+                <a href="https://slinjing.github.io/post/docker-pull-hubzentaonetappzentaolatest/" class="post-title gt-a-link">
+                    docker-compose-zentao
                 </a>
             </div>
         

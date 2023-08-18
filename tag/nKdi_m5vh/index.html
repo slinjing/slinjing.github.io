@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>prometheus安装 | slinjing</title>
+<title>mysql | slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692338745093">
 
@@ -25,15 +25,11 @@
 
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
-    
-        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script> 
-    
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <nav class="navbar navbar-expand-lg">
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -101,106 +97,49 @@
     }
 </script>
 
-    <div class="post-container">
-        <div class="post-detail gt-bg-theme-color-second">
-            <article class="gt-post-content">
-                <h2 class="post-title">
-                    prometheus安装
-                </h2>
-                <div class="post-info">
-                    <time class="post-time gt-c-content-color-first">
-                        · 2023-08-18 ·
-                    </time>
-                    
-                        <a href="https://slinjing.github.io/tag/z-aiiL1nk/" class="post-tags">
-                            # pormetheus
-                        </a>
-                    
-                </div>
-                <div class="post-content">
-                    <h3 id="1️⃣下载解压">1️⃣下载解压</h3>
-<pre><code class="language-shell">wget https://github.com/prometheus/prometheus/releases/download/v2.45.0-rc.0/prometheus-2.45.0-rc.0.linux-amd64.tar.gz
-tar -zxvf prometheus-2.43.0-rc.0.linux-amd64.tar.gz -C /home/
-mv prometheus-2.43.0-rc.0.linux-amd64 prometheus
-</code></pre>
-<h3 id="2️⃣prometheusservice">2️⃣prometheus.service</h3>
-<pre><code class="language-shell">cat /etc/systemd/system/prometheus.service
--------------------------------------
-[Unit]
-Description=prometheus
-After=network-online.target
-
-[Service]
-User=root
-Restart=on-failure
-ExecStart=/home/prometheus/prometheus --config.file=/home/prometheus/prometheus.yml
-
-[Install]
-WantedBy=multi-user.target
--------------------------------------
-systemctl daemon-reload
-systemctl enable prometheus.service
-systemctl start prometheus.service
-systemctl status prometheus.service
-netstat -tuplan | grep 9090
-</code></pre>
-<h3 id="3️⃣prometheusyml">3️⃣prometheus.yml</h3>
-<pre><code class="language-shell">global:
-  scrape_interval: 15s 
-  evaluation_interval: 15s 
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-          - 192.168.0.1:9093
-rule_files:
-    - &quot;/etc/prometheus/rules/*.yml&quot;
-scrape_configs:
-    metrics_path defaults to '/metrics'
-  - job_name: 'linux'
-    file_sd_configs:
-    - files:
-      - 'sd_config/linux.yml'
-      refresh_interval: 30m  # 每隔30分钟检查一次
-
-  - job_name: 'windows'
-    file_sd_configs:
-    - files:
-      - 'sd_config/windows.yml'
-      refresh_interval: 30m  
-</code></pre>
-<h3 id="4️⃣linuxyml">4️⃣linux.yml</h3>
-<pre><code class="language-yml">- targets:
-  - 192.168.0.2:9100
-  - 192.168.0.3:9100
-  - 192.168.0.4:9100
-  -......
-</code></pre>
-<h3 id="5️⃣检查配置文件">5️⃣检查配置文件</h3>
-<pre><code class="language-shell">./promtool check config prometheus.yml  
-</code></pre>
-<h3 id="6️⃣热加载配置">6️⃣热加载配置：</h3>
-<pre><code class="language-shell">curl -X POST http://192.168.32.146:9090/-/reload
-</code></pre>
-
-                </div>
-            </article>
+        <div class="current-tag-container">
+            <h2 class="title gt-c-content-color-first">
+                #mysql
+            </h2>
         </div>
-
+        <div class="post-list-container">
+    <div class="post-inner">
         
-            <div class="next-post">
-                <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://slinjing.github.io/post/linux-xi-tong-cha-kan-ben-ji-wai-wang-ip-de-fang-fa/" class="post-title gt-a-link">
-                    linux系统查看本机外网ip的方法
-                </a>
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://slinjing.github.io/post/mysql-an-zhuang/">
+                            <span class="post-title gt-c-content-color-first">mysql安装</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2023-08-18 ·
+                        </time>
+                        
+                            <a href="https://slinjing.github.io/tag/nKdi_m5vh/" class="post-tag">
+                                # mysql
+                            </a>
+                        
+                    </div>
+                </div>
+                
+                    <a href="https://slinjing.github.io/post/mysql-an-zhuang/" class="post-feature-image"
+                       style="background-image: url('https://slinjing.github.io/post-images/mysql-an-zhuang.jpg')">
+                    </a>
+                
             </div>
         
-
-        
-
-        
-
-        
+    </div>
+</div>
+        <div class="pagination-container">
+    
+    
+</div>
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">温故而知新</div>
