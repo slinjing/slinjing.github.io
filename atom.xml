@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>slinjing</title>
-    <updated>2023-08-18T01:24:25.942Z</updated>
+    <updated>2023-08-18T01:40:21.329Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,78 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, slinjing</rights>
+    <entry>
+        <title type="html"><![CDATA[prometheus安装]]></title>
+        <id>https://slinjing.github.io/post/prometheus-an-zhuang/</id>
+        <link href="https://slinjing.github.io/post/prometheus-an-zhuang/">
+        </link>
+        <updated>2023-08-18T01:29:18.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1️⃣下载解压">1️⃣下载解压</h3>
+<pre><code class="language-shell">wget https://github.com/prometheus/prometheus/releases/download/v2.45.0-rc.0/prometheus-2.45.0-rc.0.linux-amd64.tar.gz
+tar -zxvf prometheus-2.43.0-rc.0.linux-amd64.tar.gz -C /home/
+mv prometheus-2.43.0-rc.0.linux-amd64 prometheus
+</code></pre>
+<h3 id="2️⃣prometheusservice">2️⃣prometheus.service</h3>
+<pre><code class="language-shell">cat /etc/systemd/system/prometheus.service
+-------------------------------------
+[Unit]
+Description=prometheus
+After=network-online.target
+
+[Service]
+User=root
+Restart=on-failure
+ExecStart=/home/prometheus/prometheus --config.file=/home/prometheus/prometheus.yml
+
+[Install]
+WantedBy=multi-user.target
+-------------------------------------
+systemctl daemon-reload
+systemctl enable prometheus.service
+systemctl start prometheus.service
+systemctl status prometheus.service
+netstat -tuplan | grep 9090
+</code></pre>
+<h3 id="3️⃣prometheusyml">3️⃣prometheus.yml</h3>
+<pre><code class="language-shell">global:
+  scrape_interval: 15s 
+  evaluation_interval: 15s 
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - 192.168.0.1:9093
+rule_files:
+    - &quot;/etc/prometheus/rules/*.yml&quot;
+scrape_configs:
+    metrics_path defaults to '/metrics'
+  - job_name: 'linux'
+    file_sd_configs:
+    - files:
+      - 'sd_config/linux.yml'
+      refresh_interval: 30m  # 每隔30分钟检查一次
+
+  - job_name: 'windows'
+    file_sd_configs:
+    - files:
+      - 'sd_config/windows.yml'
+      refresh_interval: 30m  
+</code></pre>
+<h3 id="4️⃣linuxyml">4️⃣linux.yml</h3>
+<pre><code class="language-yml">- targets:
+  - 192.168.0.2:9100
+  - 192.168.0.3:9100
+  - 192.168.0.4:9100
+#-........ #
+</code></pre>
+<h3 id="5️⃣检查配置文件">5️⃣检查配置文件</h3>
+<pre><code class="language-shell">./promtool check config prometheus.yml  
+</code></pre>
+<h3 id="6️⃣热加载配置">6️⃣热加载配置：</h3>
+<pre><code class="language-shell">curl -X POST http://192.168.32.146:9090/-/reload
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[linux系统查看本机外网ip的方法]]></title>
         <id>https://slinjing.github.io/post/linux-xi-tong-cha-kan-ben-ji-wai-wang-ip-de-fang-fa/</id>
@@ -402,41 +474,6 @@ systemctl disable node_exporter    禁止服务开机自启动
 systemctl is-enabled node_exporter    查看服务是否开机启动
 systemctl list-unit-files|grep enabled    查看开机启动的服务列表
 systemctl --failed    查看启动失败的服务列表
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[修改docker默认存储路径]]></title>
-        <id>https://slinjing.github.io/post/xiu-gai-docker-mo-ren-cun-chu-lu-jing/</id>
-        <link href="https://slinjing.github.io/post/xiu-gai-docker-mo-ren-cun-chu-lu-jing/">
-        </link>
-        <updated>2023-08-17T04:48:49.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1️⃣查看默认路径">1️⃣查看默认路径</h3>
-<pre><code>docker info | grep &quot;Docker Root Dir&quot;
-</code></pre>
-<h3 id="2️⃣停止docker服务">2️⃣停止docker服务</h3>
-<pre><code>systemctl stop docker
-</code></pre>
-<h3 id="3️⃣目录迁移">3️⃣目录迁移</h3>
-<pre><code>mkdir -p /home/docker
-rsync -avz /var/lib/docker /home/docker
-</code></pre>
-<h3 id="4️⃣编辑etcdockerdaemonjson文件">4️⃣编辑/etc/docker/daemon.json文件</h3>
-<pre><code>{
-&quot;registry-mirrors&quot;: [&quot;https://b81vthfh.mirror.aliyuncs.com&quot;],
-&quot;data-root&quot;: &quot;/home/docker&quot;
-}
-</code></pre>
-<h3 id="5️⃣重启">5️⃣重启</h3>
-<pre><code>systemctl restart docker
-</code></pre>
-<h3 id="6️⃣检查">6️⃣检查</h3>
-<pre><code>docker info | grep &quot;Docker Root Dir&quot;
-docker ps -a
-docker images
-</code></pre>
-<h3 id="7️⃣删除varlibdocker目录中的文件">7️⃣删除/var/lib/docker/目录中的文件</h3>
-<pre><code>rm -rf /var/lib/docker/*
 </code></pre>
 ]]></content>
     </entry>
