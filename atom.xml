@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://slinjing.github.io</id>
     <title>slinjing</title>
-    <updated>2023-08-18T11:11:52.057Z</updated>
+    <updated>2023-08-20T08:09:42.437Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://slinjing.github.io"/>
     <link rel="self" href="https://slinjing.github.io/atom.xml"/>
@@ -10,6 +10,38 @@
     <logo>https://slinjing.github.io/images/avatar.png</logo>
     <icon>https://slinjing.github.io/favicon.ico</icon>
     <rights>All rights reserved 2023, slinjing</rights>
+    <entry>
+        <title type="html"><![CDATA[python虚拟环境]]></title>
+        <id>https://slinjing.github.io/post/python-xu-ni-huan-jing/</id>
+        <link href="https://slinjing.github.io/post/python-xu-ni-huan-jing/">
+        </link>
+        <updated>2023-08-20T06:32:54.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1️⃣安装virtualenv">1️⃣安装virtualenv</h3>
+<pre><code class="language-shell">pip3 install virtualenv
+pip list   # 查看已安装的模块
+</code></pre>
+<h3 id="2️⃣切换到存放虚拟环境的目录">2️⃣切换到存放虚拟环境的目录</h3>
+<pre><code class="language-shell">D:
+cd D:\py_virtual_env
+</code></pre>
+<h3 id="3️⃣创建虚拟环境">3️⃣创建虚拟环境</h3>
+<pre><code class="language-shell">virtualenv test_01
+# virtualenv 环境名称
+# 会在当前目录下创建
+</code></pre>
+<h3 id="4️⃣检查">4️⃣检查</h3>
+<p><img src="https://slinjing.github.io/post-images/1692514708675.png" alt="" loading="lazy"><br>
+<img src="https://slinjing.github.io/post-images/1692514715766.png" alt="" loading="lazy"></p>
+<h3 id="5️⃣激活">5️⃣激活</h3>
+<pre><code class="language-shell"># 进入Scripts目录
+cd test_01/Scripts/
+ .\activate.bat
+</code></pre>
+<h3 id="6️⃣退出">6️⃣退出</h3>
+<pre><code class="language-shell">.\deactivate.bat
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[redis集群]]></title>
         <id>https://slinjing.github.io/post/redis-ji-qun/</id>
@@ -499,97 +531,6 @@ services:
   ports:
     - &quot;9443:9443&quot;
     - &quot;9000:9000&quot;
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[PXE服务器配置]]></title>
-        <id>https://slinjing.github.io/post/pxe-fu-wu-qi-pei-zhi/</id>
-        <link href="https://slinjing.github.io/post/pxe-fu-wu-qi-pei-zhi/">
-        </link>
-        <updated>2023-08-17T11:15:22.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1️⃣安装并启用-dhcp-服务">1️⃣安装并启用 DHCP 服务</h3>
-<pre><code class="language-bash">yum -y install dhcp
-cp /usr/share/doc/dhcp-4.2.5/dhcpd.conf.example /etc/dhcp/dhcpd.conf 
-
-修改配置文件：
-vim /etc/dhcp/dhcpd.conf
---------------------------------------
-ddns-update-style none;   // 禁止动态更新
-
-# A slightly different configuration for an internal subnet.
-subnet 192.168.242.0 netmask 255.255.255.0 {   #配置网段
-  range 192.168.242.180 192.168.242.200;   #配置地址池
-  option domain-name-servers ns1.internal.example.org;
-  option domain-name &quot;internal.example.org&quot;;
-  option routers 192.168.242.133;  #配置网关
-  default-lease-time 600;
-  max-lease-time 7200;
-  next-server 192.168.242.133;  #指定tftp服务器的地址
-  filename &quot;pxelinux.0&quot;;   #指定pxe引导程序的文件名
-}
---------------------------------------
-systemctl start dhcpd
-systemctl enable dhcpd
-</code></pre>
-<h3 id="2️⃣安装并启用-tftp-服务">2️⃣安装并启用 TFTP 服务</h3>
-<pre><code class="language-bash">yum -y install tftp-server xinetd
-vim /etc/xinetd.d/tftp
---------------------------------------
-service tftp
-{
-        socket_type             = dgram
-        protocol                = udp
-        wait                    = no    #wait no表示客户机可以多台一起连接，yes表示客户机只能一台一台连接，表示是否开启多线程一起工作，否则需要等待
-        user                    = root
-        server                    = /usr/sbin/in.tftpd
-        server_args             = -s /var/lib/tftpboot    #指定TFTP根目录（引导文件的存储路径） -c允许上传
-        disable                 = no   #disable no表示开启TFTP服务 
-        per_source              = 11    #通过限制一个主机的最大连接数，从而防止某个主机独占某个服务,这里每个IP地址的连接数是11个
-        cps                     = 100 2   #表示服务器最多启动100个连接，如果达到这个数目将停止启动新服务2秒。在此期间不接受任何请求
-        flags                   = IPv4
-}
---------------------------------------
-systemctl start tftp         
-systemctl enable tftp            
-systemctl start xinetd            
-systemctl enable xinetd      
-</code></pre>
-<h3 id="3️⃣准备-tftp-需要共享出去的文件">3️⃣准备 tftp 需要共享出去的文件</h3>
-<pre><code class="language-bash">mount /dev/sr0 /mnt
-cd /mnt/images/pxeboot
-cp initrd.img vmlinuz /var/lib/tftpboot/
-</code></pre>
-<h3 id="4️⃣准备-pxe-引导程序">4️⃣准备 PXE 引导程序</h3>
-<pre><code class="language-bash">yum provides */pxelinux.0
-yum -y install syslinux
-cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/
-</code></pre>
-<h3 id="5️⃣配置启动菜单文件">5️⃣配置启动菜单文件</h3>
-<pre><code class="language-bash">mkdir /var/lib/tftpboot/pxelinux.cfg      
-vim /var/lib/tftpboot/pxelinux.cfg/default
-
-default auto              #指定默认入口名称
-prompt 0                #设置是否等待用户选择，“1”表示等待用户控制 “0表示自动”
- 
-label auto                #图形安装（默认）引导入口，label 用来定义启动项
-kernel vmlinuz              #kernel 和 append用来定义引导参数
-append initrd=initrd.img method=ftp://192.168.242.133/centos7
- 
-label linux text            #文本安装引导入口
-kernel vmlinuz
-append text initrd=initrd.img method=ftp://192.168.242.133/centos7
- 
-label linux rescue            #救援模式引导入口
-kernel vmlinuz
-append rescue initrd=initrd.img method=ftp://192.168.242.133/centos7
-</code></pre>
-<h3 id="6️⃣安装ftp服务准备centos-7-安装源">6️⃣安装FTP服务，准备CentOS 7 安装源</h3>
-<pre><code class="language-bash">yum -y install vsftpd               #安装vsftpd服务
-mkdir /var/ftp/centos7              #在ftp根目录下创建目录centos7
-cp -rf /mnt/* /var/ftp/centos7/     #将镜像文件强制复制到centos7目录中，可加&amp;让它自己后台运行
-systemctl start vsftpd              #开启vsftpd服务
-systemctl enable vsftpd  
 </code></pre>
 ]]></content>
     </entry>
