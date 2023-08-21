@@ -6,7 +6,7 @@
 
 <title>linux系统硬盘分区 | slinjing</title>
 
-<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692518979465">
+<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1692604174249">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://slinjing.github.io/styles/main.css">
@@ -81,7 +81,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1692518979465"
+            <form id="gridea-search-form" style="position: relative" data-update="1692604174249"
                 action="/search/">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -155,13 +155,15 @@ mkfs.xfs -t /dev/sda       #xfs格式
 <h3 id="4️⃣挂载">4️⃣挂载</h3>
 <pre><code class="language-shell">mkdir /home/sd1    --创建挂载点
 mount -t ext4 /dev/sdb /home/sd1   --挂载到/home/sd1
+mount -t xfs /dev/sdc  /data
 df -h /home/sd1     --查看是否挂载成功
 
 --显示已成功：
 /dev/sdc        976M  2.6M  907M   1% /home/sd1
 </code></pre>
 <h3 id="5️⃣永久挂载">5️⃣永久挂载</h3>
-<pre><code class="language-shell">--用blkid命令拿到UUID：blkid   
+<pre><code class="language-shell">vi /etc/fstab
+--用blkid命令拿到UUID：blkid   
 /dev/sdb: UUID=&quot;cc6e8689-d83f-4221-b260-4a81e70d85a4&quot; TYPE=&quot;ext4&quot;
 --写入配置文件：vim /etc/fstab
 UUID=&quot;9e86f962-12f0-4842-a4a9-ecc01a0726a1&quot; /home/sd1 ext4 defaults 0 0
