@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>mysql安装 | slinjing</title>
+<title>slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1693063795632">
 
@@ -25,15 +25,11 @@
 
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
-    
-        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
-        <script>mermaid.initialize({startOnLoad:true});</script> 
-    
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <nav class="navbar navbar-expand-lg">
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -101,81 +97,49 @@
     }
 </script>
 
-    <div class="post-container">
-        <div class="post-detail gt-bg-theme-color-second">
-            <article class="gt-post-content">
-                <h2 class="post-title">
-                    mysql安装
-                </h2>
-                <div class="post-info">
-                    <time class="post-time gt-c-content-color-first">
-                        · 2023-08-18 ·
-                    </time>
-                    
-                        <a href="https://slinjing.github.io/tag/nKdi_m5vh/" class="post-tags">
-                            # mysql
-                        </a>
-                    
-                </div>
-                <div class="post-content">
-                    <h3 id="1️⃣下载mysql-yum源">1️⃣下载mysql-yum源</h3>
-<pre><code class="language-shell">wget  https://dev.mysql.com/get/mysql80-community-release-el7-7.noarch.rpm
-</code></pre>
-<h3 id="2️⃣安装mysql-yum源">2️⃣安装mysql-yum源</h3>
-<pre><code class="language-shell">yum -y install  mysql80-community-release-el7-7.noarch.rpm
-</code></pre>
-<h3 id="3️⃣生成缓存">3️⃣生成缓存</h3>
-<pre><code class="language-shell">yum clean all &amp;&amp; yum makecache
-</code></pre>
-<h3 id="4️⃣安装mysql">4️⃣安装mysql</h3>
-<pre><code class="language-shell">yum -y  install mysql-community-server
-</code></pre>
-<h3 id="5️⃣启动">5️⃣启动</h3>
-<pre><code class="language-shell">systemctl start mysqld
-</code></pre>
-<h3 id="6️⃣查看密码">6️⃣查看密码</h3>
-<pre><code class="language-shell">grep 'temporary password' /var/log/mysqld.log
-</code></pre>
-<h3 id="7️⃣修改密码">7️⃣修改密码</h3>
-<pre><code class="language-sql">ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
-</code></pre>
-<h3 id="8️⃣登录授权">8️⃣登录授权</h3>
-<pre><code class="language-sql">UPDATE user SET host='%' WHERE user = 'root';      #8.0以上使用
-GRANT ALL PRIVILEGES ON . TO 'root'@'%' IDENTIFIED BY 'YIERSAN123pp@' WITH GRANT OPTION;   #5.7
-FLUSH PRIVILEGES;
-</code></pre>
-<h3 id="9️⃣其他">9️⃣其他</h3>
-<pre><code class="language-shell"># 以上步骤默认安装最新版本
-# 查询repo仓库中包含的mysql版本
-yum repolist enabled | grep mysql
-# 安装其他版本
-yum-config-manager --disable mysql80-community
-yum-config-manager --enable mysql57-community
-# 若执行命令提示：-bash: yum-config-manager: command not found
-yum -y install yum-utils
-# 通过修改/etc/yum.repos.d/mysql-community.repo文件选择版本
-enabled=0  #禁用
-enabled=1  #启用
-</code></pre>
 
-                </div>
-            </article>
-        </div>
-
+        <div class="post-list-container">
+    <div class="post-inner">
         
-            <div class="next-post">
-                <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://slinjing.github.io/post/docker-pull-hubzentaonetappzentaolatest/" class="post-title gt-a-link">
-                    docker-compose-zentao
-                </a>
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://slinjing.github.io/post/nginx-xian-shi-wen-jian-mu-lu-bing-qie-she-zhi-xia-zai/">
+                            <span class="post-title gt-c-content-color-first">以nginx为文件服务器</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2023-08-17 ·
+                        </time>
+                        
+                            <a href="https://slinjing.github.io/tag/ZOaXKucd4/" class="post-tag">
+                                # nginx
+                            </a>
+                        
+                    </div>
+                </div>
+                
+                    <a href="https://slinjing.github.io/post/nginx-xian-shi-wen-jian-mu-lu-bing-qie-she-zhi-xia-zai/" class="post-feature-image"
+                       style="background-image: url('https://slinjing.github.io/post-images/nginx-xian-shi-wen-jian-mu-lu-bing-qie-she-zhi-xia-zai.png')">
+                    </a>
+                
             </div>
         
+    </div>
+</div>
 
-        
+        <div class="pagination-container">
+    
+        <a href="https://slinjing.github.io/page/2/" class="prev-page gt-a-link">上一页</a>
+    
+    
+</div>
 
-        
-
-        
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">冰冻三尺非一日之寒</div>

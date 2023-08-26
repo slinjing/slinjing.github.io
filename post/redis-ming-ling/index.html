@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>mysql安装 | slinjing</title>
+<title>redis-命令 | slinjing</title>
 
 <link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1693063795632">
 
@@ -105,57 +105,115 @@
         <div class="post-detail gt-bg-theme-color-second">
             <article class="gt-post-content">
                 <h2 class="post-title">
-                    mysql安装
+                    redis-命令
                 </h2>
                 <div class="post-info">
                     <time class="post-time gt-c-content-color-first">
-                        · 2023-08-18 ·
+                        · 2023-08-26 ·
                     </time>
                     
-                        <a href="https://slinjing.github.io/tag/nKdi_m5vh/" class="post-tags">
-                            # mysql
+                        <a href="https://slinjing.github.io/tag/O_2iBKLRR/" class="post-tags">
+                            # redis
                         </a>
                     
                 </div>
                 <div class="post-content">
-                    <h3 id="1️⃣下载mysql-yum源">1️⃣下载mysql-yum源</h3>
-<pre><code class="language-shell">wget  https://dev.mysql.com/get/mysql80-community-release-el7-7.noarch.rpm
+                    <h3 id="1️⃣基础命令">1️⃣基础命令</h3>
+<pre><code class="language-shell">127.0.0.1:6379&gt; SET k1 hello      #设置key
+OK
+127.0.0.1:6379&gt; GET k1         #查看key
+&quot;hello&quot;
+127.0.0.1:6379&gt; TYPE k1     #查看key的数据类型
+string
+127.0.0.1:6379&gt; KEYS *      #查看当前库所有的key
+1) &quot;k1&quot;
+127.0.0.1:6379&gt; EXISTS k1    #判断某个key是否存在
+(integer) 1
+127.0.0.1:6379&gt; EXPIRE k1 50    #设置过期时间
+(integer) 1
+127.0.0.1:6379&gt; ttl k1       #查看过期时间，-1永不过期，-2已过期，默认是-2
+(integer) 47
+127.0.0.1:6379&gt; MOVE k1 1     #将当前数据库的key移动到指定数据库
+(integer) 1
+127.0.0.1:6379&gt; set k2 helloworld
+OK
+127.0.0.1:6379&gt; DBSIZE    #查看当前数据库key的数量
+(integer) 1
+127.0.0.1:6379&gt; DEL k2    #删除key，阻塞
+(integer) 1
+127.0.0.1:6379&gt; SET k3 tom
+OK
+127.0.0.1:6379&gt; UNLINK k3    #删除key，非阻塞删除
+(integer) 1
+127.0.0.1:6379&gt; SELECT 1     #切换数据库
+OK
+127.0.0.1:6379[1]&gt; KEYS *
+(empty array)
+127.0.0.1:6379[1]&gt; SELECT 0
+OK
+127.0.0.1:6379&gt; FLUSHDB     #清空当前数据库
+OK
+127.0.0.1:6379&gt; FLUSHALL    #清空所有数据库
+OK
 </code></pre>
-<h3 id="2️⃣安装mysql-yum源">2️⃣安装mysql-yum源</h3>
-<pre><code class="language-shell">yum -y install  mysql80-community-release-el7-7.noarch.rpm
-</code></pre>
-<h3 id="3️⃣生成缓存">3️⃣生成缓存</h3>
-<pre><code class="language-shell">yum clean all &amp;&amp; yum makecache
-</code></pre>
-<h3 id="4️⃣安装mysql">4️⃣安装mysql</h3>
-<pre><code class="language-shell">yum -y  install mysql-community-server
-</code></pre>
-<h3 id="5️⃣启动">5️⃣启动</h3>
-<pre><code class="language-shell">systemctl start mysqld
-</code></pre>
-<h3 id="6️⃣查看密码">6️⃣查看密码</h3>
-<pre><code class="language-shell">grep 'temporary password' /var/log/mysqld.log
-</code></pre>
-<h3 id="7️⃣修改密码">7️⃣修改密码</h3>
-<pre><code class="language-sql">ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
-</code></pre>
-<h3 id="8️⃣登录授权">8️⃣登录授权</h3>
-<pre><code class="language-sql">UPDATE user SET host='%' WHERE user = 'root';      #8.0以上使用
-GRANT ALL PRIVILEGES ON . TO 'root'@'%' IDENTIFIED BY 'YIERSAN123pp@' WITH GRANT OPTION;   #5.7
-FLUSH PRIVILEGES;
-</code></pre>
-<h3 id="9️⃣其他">9️⃣其他</h3>
-<pre><code class="language-shell"># 以上步骤默认安装最新版本
-# 查询repo仓库中包含的mysql版本
-yum repolist enabled | grep mysql
-# 安装其他版本
-yum-config-manager --disable mysql80-community
-yum-config-manager --enable mysql57-community
-# 若执行命令提示：-bash: yum-config-manager: command not found
-yum -y install yum-utils
-# 通过修改/etc/yum.repos.d/mysql-community.repo文件选择版本
-enabled=0  #禁用
-enabled=1  #启用
+<h3 id="2️⃣string类型">2️⃣string类型</h3>
+<pre><code class="language-shell">127.0.0.1:6379&gt; APPEND k1 world   #向key中追加字符串，key不存在时创建
+(integer) 10
+127.0.0.1:6379&gt; GET k1
+&quot;helloworld&quot;
+127.0.0.1:6379&gt; STRLEN k1   #获取vlaue长度
+(integer) 10
+127.0.0.1:6379&gt; INCR k2   #自增1，可用于实现浏览量
+(integer) 1
+127.0.0.1:6379&gt; GET k2
+&quot;1&quot;
+127.0.0.1:6379&gt; DECR k2   #自减1
+(integer) 0
+127.0.0.1:6379&gt; GET k2
+&quot;0&quot;
+127.0.0.1:6379&gt; INCRBY k2 10   #自增10，指定增量步长
+(integer) 10
+127.0.0.1:6379&gt; GET k2
+&quot;10&quot;
+127.0.0.1:6379&gt; DECRBY k2 9   #自减9
+(integer) 1
+127.0.0.1:6379&gt; GET k2
+&quot;1&quot;
+127.0.0.1:6379&gt; SET k3 helloredis   
+OK
+127.0.0.1:6379&gt; GETRANGE k3 0 3   #获取指定范围内的字符串，0到-1是全部
+&quot;hell&quot;
+127.0.0.1:6379&gt; SETRANGE k3 0 T   #替换指定位置的字符串
+(integer) 10
+127.0.0.1:6379&gt; GET k3
+&quot;Telloredis&quot;
+127.0.0.1:6379&gt; SETNX k3 1   #key不存在时则创建，分布式锁中常用
+(integer) 0
+127.0.0.1:6379&gt; SETNX k4 1
+(integer) 1
+127.0.0.1:6379&gt; SETEX k2 50 hello   #创建key并设置过期时间，也可以修改已存在key的vlaue和过期时间
+OK
+127.0.0.1:6379&gt; ttl k2
+(integer) 45
+127.0.0.1:6379&gt; MSET h hello p python j java   #批量设置key，原子性操作，要么全部成功，要么全部失败
+OK
+127.0.0.1:6379&gt; MGET h p j   #批量获取vlaue
+1) &quot;hello&quot;
+2) &quot;python&quot;
+3) &quot;java&quot;
+127.0.0.1:6379&gt; MSET user1 {name:tom,age:12} user2 {name:jack,age:22}   #vlaue的值可以是json串
+OK
+127.0.0.1:6379&gt; MGET user1 user2
+1) &quot;{name:tom,age:12}&quot;
+2) &quot;{name:jack,age:22}&quot;
+127.0.0.1:6379&gt; GETSET k2 db    #先get再set，如果key不存在则返回nil，再设置key
+(nil)
+127.0.0.1:6379&gt; GET k2
+&quot;db&quot;
+127.0.0.1:6379&gt; GETSET k2 redis
+&quot;db&quot;
+127.0.0.1:6379&gt; GET k2
+&quot;redis&quot;
 </code></pre>
 
                 </div>
@@ -165,8 +223,8 @@ enabled=1  #启用
         
             <div class="next-post">
                 <div class="next gt-c-content-color-first">下一篇</div>
-                <a href="https://slinjing.github.io/post/docker-pull-hubzentaonetappzentaolatest/" class="post-title gt-a-link">
-                    docker-compose-zentao
+                <a href="https://slinjing.github.io/post/python-xu-ni-huan-jing/" class="post-title gt-a-link">
+                    python虚拟环境
                 </a>
             </div>
         
