@@ -6,7 +6,7 @@
 
 <title>redis-命令 | slinjing</title>
 
-<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1693063964443">
+<link rel="shortcut icon" href="https://slinjing.github.io/favicon.ico?v=1693126998207">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://slinjing.github.io/styles/main.css">
@@ -81,7 +81,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1693063964443"
+            <form id="gridea-search-form" style="position: relative" data-update="1693126998207"
                 action="/search/">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -214,6 +214,185 @@ OK
 &quot;db&quot;
 127.0.0.1:6379&gt; GET k2
 &quot;redis&quot;
+</code></pre>
+<h3 id="3️⃣list类型">3️⃣list类型</h3>
+<pre><code class="language-shell">127.0.0.1:6379&gt; LPUSH list4 hello tom    #将一个或多个值插入list头部
+(integer) 2
+127.0.0.1:6379&gt; LRANGE list4 0 -1     #获取列表指定下标的元素，0到-1是全部
+1) &quot;tom&quot;
+2) &quot;hello&quot;
+127.0.0.1:6379&gt; RPUSH list4 redis world     #将一个或多个值插入list尾部
+(integer) 4
+127.0.0.1:6379&gt; LRANGE list4 0 -1
+1) &quot;tom&quot;
+2) &quot;hello&quot;
+3) &quot;redis&quot;
+4) &quot;world&quot;
+127.0.0.1:6379&gt; LPOP list4   #移除list第一个元素
+&quot;tom&quot;
+127.0.0.1:6379&gt; RPOP list4   #移除list最后一个元素
+&quot;world&quot;
+127.0.0.1:6379&gt; LRANGE list4 0 -1
+1) &quot;hello&quot;
+2) &quot;redis&quot;
+127.0.0.1:6379&gt; LINDEX list4 1    #通过下标获取list中的元素
+&quot;redis&quot;
+127.0.0.1:6379&gt; LLEN list4    #获取list长度
+(integer) 2
+127.0.0.1:6379&gt; LREM list4 1 redis    #移除list指定的元素
+(integer) 1
+127.0.0.1:6379&gt; LRANGE list4 0 -1
+1) &quot;hello&quot;
+127.0.0.1:6379&gt; LRANGE list4 0 -1
+1) &quot;redis&quot;
+2) &quot;tom&quot;
+3) &quot;redis&quot;
+4) &quot;tom&quot;
+5) &quot;hello&quot;
+127.0.0.1:6379&gt; LREM list4 2 tom   #移除多个相同的元素
+(integer) 2
+127.0.0.1:6379&gt; LRANGE list4 0 -1
+1) &quot;redis&quot;
+2) &quot;redis&quot;
+3) &quot;hello&quot;
+127.0.0.1:6379&gt; LTRIM list4 0 1   #通过下标截取list
+OK
+127.0.0.1:6379&gt; LRANGE list4 0 -1
+1) &quot;redis&quot;
+2) &quot;redis&quot;
+127.0.0.1:6379&gt; RPOPLPUSH list4 list5   #移除list最后一个元素并添加到其他list
+&quot;redis&quot;
+127.0.0.1:6379&gt; LRANGE list5 0 -1
+1) &quot;redis&quot;
+127.0.0.1:6379&gt; LRANGE list4 0 -1
+1) &quot;redis&quot;
+127.0.0.1:6379&gt; LSET list5 0 mysql    #修改指定下标的元素，list不存在则报错
+OK
+127.0.0.1:6379&gt; LRANGE list5 0 -1
+1) &quot;mysql&quot;
+127.0.0.1:6379&gt; LINSERT list5 before mysql db   #向list指定元素之前添加元素
+(integer) 2
+127.0.0.1:6379&gt; LRANGE list5 0 -1
+1) &quot;db&quot;
+2) &quot;mysql&quot;
+127.0.0.1:6379&gt; LINSERT list5 after mysql redis    #向list指定元素之后添加元素
+(integer) 3
+127.0.0.1:6379&gt; LRANGE list5 0 -1
+1) &quot;db&quot;
+2) &quot;mysql&quot;
+3) &quot;redis&quot;
+</code></pre>
+<h3 id="4️⃣set类型">4️⃣set类型</h3>
+<pre><code class="language-shell">127.0.0.1:6379&gt; SADD set4 hello redis   #向set中插入一个或多个值，set不存在则创建
+(integer) 2
+127.0.0.1:6379&gt; SMEMBERS set4    #获取set中所有的值
+1) &quot;hello&quot;
+2) &quot;redis&quot;
+127.0.0.1:6379&gt; SISMEMBER set4 redis   #判断某个值是否在set中
+(integer) 1
+127.0.0.1:6379&gt; SISMEMBER set4 mysql
+(integer) 0  
+127.0.0.1:6379&gt; SCARD set4    #获取set元素数量
+(integer) 2
+127.0.0.1:6379&gt; SREM set4 redis    #移除指定元素
+(integer) 1
+127.0.0.1:6379&gt; SMEMBERS set4
+1) &quot;hello&quot;
+127.0.0.1:6379&gt; SMEMBERS set2
+1) &quot;1&quot;
+2) &quot;2&quot;
+3) &quot;3&quot;
+4) &quot;4&quot;
+5) &quot;5&quot;
+6) &quot;6&quot;
+127.0.0.1:6379&gt; SRANDMEMBER set2   #随机取出一个元素
+&quot;2&quot;
+127.0.0.1:6379&gt; SRANDMEMBER set2 3   #随机取出指定个数的元素
+1) &quot;5&quot;
+2) &quot;3&quot;
+3) &quot;2&quot;
+127.0.0.1:6379&gt; SPOP set2   #随机删除1个元素，可指定删除数量
+&quot;4&quot;
+127.0.0.1:6379&gt; SPOP set2 2   #随机删除2个元素
+1) &quot;5&quot;
+2) &quot;2&quot;
+127.0.0.1:6379&gt; SMEMBERS set2
+1) &quot;1&quot;
+2) &quot;3&quot;
+3) &quot;6&quot;
+127.0.0.1:6379&gt; SMEMBERS set4
+1) &quot;hello&quot;
+127.0.0.1:6379&gt; SMOVE set4 set2 hello   # 移动元素到别的set
+(integer) 1
+127.0.0.1:6379&gt; SMEMBERS set2
+1) &quot;6&quot;
+2) &quot;3&quot;
+3) &quot;1&quot;
+4) &quot;hello&quot;
+127.0.0.1:6379&gt; SADD set5 1 2 3 4 9 8 2
+(integer) 6
+127.0.0.1:6379&gt; SADD set6 4 5 3 6 9 7 1
+(integer) 7
+127.0.0.1:6379&gt; SDIFF set5 set6   #差集
+1) &quot;2&quot;
+2) &quot;8&quot;
+127.0.0.1:6379&gt; SINTER set5 set6   #交集
+1) &quot;1&quot;
+2) &quot;3&quot;
+3) &quot;4&quot;
+4) &quot;9&quot;
+127.0.0.1:6379&gt; SUNION set5 set6   #并集
+1) &quot;1&quot;
+2) &quot;2&quot;
+3) &quot;3&quot;
+4) &quot;4&quot;
+5) &quot;5&quot;
+6) &quot;6&quot;
+7) &quot;7&quot;
+8) &quot;8&quot;
+9) &quot;9&quot;
+</code></pre>
+<h3 id="5️⃣hash类型">5️⃣hash类型</h3>
+<pre><code class="language-shell">127.0.0.1:6379&gt; HSET hash2 name tom age 13   #创建key以及多个字段key-value,HMSET效果一样
+(integer) 2
+127.0.0.1:6379&gt; HGET hash2 name   #查看key中的字段值
+&quot;tom&quot;
+127.0.0.1:6379&gt; HMGET hash2 name age   #查看key中多个字段的值
+1) &quot;tom&quot;
+2) &quot;13&quot;
+127.0.0.1:6379&gt; HGETALL hash2   #查看key中的字段和值
+1) &quot;name&quot;
+2) &quot;tom&quot;
+3) &quot;age&quot;
+4) &quot;13&quot;
+127.0.0.1:6379&gt; HDEL hash2 age   #删除字段
+(integer) 1
+127.0.0.1:6379&gt; HLEN hash2   #获取字段数量
+(integer) 1
+127.0.0.1:6379&gt; HEXISTS hash2 age   #判断指定字段是否存在
+(integer) 0
+127.0.0.1:6379&gt; HSET hash2 name tom age 13
+(integer) 1
+127.0.0.1:6379&gt; HKEYS hash2   #获取所有字段名
+1) &quot;name&quot;
+2) &quot;age&quot;
+127.0.0.1:6379&gt; HVALS hash2    #获取所有字段值
+1) &quot;tom&quot;
+2) &quot;13&quot;
+127.0.0.1:6379&gt; HINCRBY hash2 age 1   #字段值自增1
+(integer) 14
+127.0.0.1:6379&gt; HINCRBY hash2 age 3  #字段值自增3
+(integer) 17
+127.0.0.1:6379&gt; HINCRBY hash2 age -1   #字段值自减1
+(integer) 16
+127.0.0.1:6379&gt; HSETNX hash2 age 22   #如果字段不存在则设置
+(integer) 0
+127.0.0.1:6379&gt; HSETNX hash2 to 22
+(integer) 1
+127.0.0.1:6379&gt; HVALS hash2
+1) &quot;tom&quot;
+2) &quot;16&quot;
+3) &quot;22&quot;
 </code></pre>
 
                 </div>
