@@ -130,12 +130,14 @@ theme: butterfly # 这里填主题文件夹的名称
 
 第一步在GitHub上创建名为<你的GitHub用户名>.github.io的仓库，然后将Hexo项目中的文件push到仓库中。
 ```shell
-git add .
-git commit -m "update"
-git remote add origin https://github.com/slinjing/slinjing.github.io.git
-git branch -M main
-git push -u origin main
+$ git add .
+$ git commit -m "update"
+$ git remote add origin https://github.com/slinjing/slinjing.github.io.git
+$ git branch -M main
+$ git push -u origin main
 ```
+
+
 push成功就可以在仓库中查看到刚刚推送的文件，接着开启GitHub Pages并修改部署文件，点击-->Settings-->Pages把Build and deployment下的Ddploy form a branch修改为GitHub Actions。最后创建`.github/workflows/pages.yml`文件，文件内容Hexo官方已经给出来了，如下：
 ```yaml
 name: Pages
