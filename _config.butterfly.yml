@@ -193,7 +193,7 @@ related_post:
 # 1: The 'next post' will link to old post
 # 2: The 'next post' will link to new post
 # false: disable pagination
-post_pagination: 1
+post_pagination: 2
 
 
 # Displays outdated notice for a post (文章過期提醒)
@@ -210,7 +210,7 @@ noticeOutdate:
 footer:
   owner:
     enable: true
-    since: 2024
+    since: 2022
   # custom_text: Hi, welcome to my <a href="https://butterfly.js.org/">blog</a>!
   custom_text: Hi, welcome to my blog!
   copyright: true # Copyright of theme and framework

@@ -1,6 +1,6 @@
 ---
 title: Centos安装Docker与基本配置  # 必选-文章标题
-date: 2020-11-03 20:33:36    # 必选-文章创建日期
+date: 2020-11-03 00:00:00    # 必选-文章创建日期
 updated:           # 可选-文章更新日期
 tags:              # 可选-文章标          
   - Docker
@@ -12,7 +12,6 @@ comments:       # 可选-显示文章评论模块(默认 true)
 cover:  /img/docker.png # 可选-文章缩略图(如果没有设置top_img,文章页顶部将显示缩略图，可设为false/图片地址/留空)
 ---
 
-# Centos 安装 Docker 与基本配置
 
 ## 必备条件
 
