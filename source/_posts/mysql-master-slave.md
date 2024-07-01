@@ -16,6 +16,7 @@ cover:  /img/mysql.png # 可选-文章缩略图(如果没有设置top_img,文章
 
 ## 安装MySQL
 
+
 ```bash
 wget  https://dev.mysql.com/get/mysql80-community-release-el7-7.noarch.rpm
 yum -y install  mysql80-community-release-el7-7.noarch.rpm
