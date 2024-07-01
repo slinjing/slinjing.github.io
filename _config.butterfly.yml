@@ -210,7 +210,7 @@ noticeOutdate:
 footer:
   owner:
     enable: true
-    since: 2022
+    since: 2024
   # custom_text: Hi, welcome to my <a href="https://butterfly.js.org/">blog</a>!
   custom_text: Hi, welcome to my blog!
   copyright: true # Copyright of theme and framework
@@ -277,15 +277,15 @@ aside:
 # busuanzi count for PV / UV in site
 # 訪問人數
 busuanzi: 
-  site_uv: false
-  site_pv: false
-  page_pv: false
+  site_uv: true
+  site_pv: true
+  page_pv: true
 
 # Time difference between publish date and now (網頁運行時間)
 # Formal: Month/Day/Year Time or Year/Month/Day Time
 runtimeshow:
   enable: true
-  publish_date: 2020/01/01 00:00:00 
+  publish_date: 2024/05/01 00:00:00 
 
 # Aside widget - Newest Comments
 newest_comments:
@@ -636,7 +636,7 @@ site_verification:
 # The position of site info, eg: 300px/300em/300rem/10% (主頁標題距離頂部距離)
 index_site_info_top:
 # The height of top_img, eg: 300px/300em/300rem (主頁top_img高度)
-index_top_img_height:
+index_top_img_height: 400px
 
 # The user interface setting of category and tag page (category和tag頁的UI設置)
 # index - same as Homepage UI (index 值代表 UI將與首頁的UI一樣)
@@ -653,7 +653,7 @@ text_align_justify: true
 background:
 
 # Footer Background
-footer_bg: false
+footer_bg: true
 
 # Add mask to header or footer (为 header 或 footer 添加黑色半透遮罩)
 mask:
@@ -1003,3 +1003,4 @@ CDN:
     # valine:
     # waline_css:
     # waline_js:
+    # busuanzi: busuanzi.ibruce.info

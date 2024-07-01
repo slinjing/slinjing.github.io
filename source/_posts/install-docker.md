@@ -12,8 +12,8 @@ comments:       # 可选-显示文章评论模块(默认 true)
 cover:  /img/docker.png # 可选-文章缩略图(如果没有设置top_img,文章页顶部将显示缩略图，可设为false/图片地址/留空)
 ---
 
-## 概述
-Docker是基于Go语言开发的开源容器引擎。可以将应用以及依赖打包成镜像，并可以在任何Docker环境中运行。由于Docker的轻量、便捷和跨平台，目前Docker的使用率非常火爆，本文演示如何安装Docker并进行一些基本的配置。
+## Docker概述
+Docker是基于Go语言开发的开源容器引擎，它可以将应用以及依赖打包成镜像，并在任何Docker环境中运行。由于Docker的轻量、便捷和跨平台等特性，目前Docker的使用率非常火爆，本文演示如何安装Docker并进行一些基本的配置。
 
 
 ## 前提条件
@@ -84,12 +84,12 @@ EOF
 使用`docker info | grep Dir`命令可以看到Docker的默认存储路径是`/var/lib/docker`，如果希望将数据存储到其他位置可以按照下面的流程修改：
 
 
-首先停止docker服务，然后`/etc/docker/daemon.json`加入：`"data-root": "/home/docker"`，如下：
+首先停止docker服务，然后`/etc/docker/daemon.json`加入：`"data-root": "/home/docker"`，需要注意的是新存储路径必须存在，如下：
 
 ```json
 {  
 "registry-mirrors": ["https://registry.cn-hangzhou.aliyuncs.com"],
-"data-root": "/home/docker"  # 新存储路径必须存在
+"data-root": "/home/docker"  
 }
 ```
 完成后使用以下`rsync`迁移数据，如果没有rsync需要先安装，命令如下：

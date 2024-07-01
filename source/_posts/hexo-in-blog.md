@@ -117,12 +117,12 @@ $ hexo server
 此时已经完成了博客框架框架的搭建，接下来更换一个适合自己的主题。
 
 ## 更换主题
-首先在[主题页面](https://hexo.io/themes/)寻找适合自己的，主题一般都有自己的说明文档，这里以butterfly主题为例。首先将主题下载到本地，并放到博客的`themes`目录下。然后修改`_config.yml`文件如下：
+首先在[主题页面](https://hexo.io/themes/)寻找适合自己的，主题一般都有自己的说明文档，这里以butterfly主题为例，也可直接前往[butterfly github地址](https://github.com/jerryc127/hexo-theme-butterfly)下载。下载后将主题放到博客项目的`themes`目录下，然后修改配置文件`_config.yml`文件如下：
 ```yaml
 ......
 theme: butterfly # 这里填主题文件夹的名称
 ```
-重启服务器后就可以看到效果了，[butterfly github地址](https://github.com/jerryc127/hexo-theme-butterfly)，但是此时页面也比较单调，想要更改一些功能和配置可以参考[文档。](https://butterfly.js.org/categories/Docs%E6%96%87%E6%AA%94/)
+重启服务器后就可以看到效果了，但是此时页面也比较单调，想要更改一些功能和配置可以参考[文档。](https://butterfly.js.org/categories/Docs%E6%96%87%E6%AA%94/)
 
 ## 在GitHub Pages上部署Hexo
 
@@ -191,4 +191,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 ```
-需要将文件中的20修改为自己的Node.js版本，并且因为此时仓库中比本地多一个文件，下次先将push之前先pull一下，不然push会失败。那么完成到这个步骤就已经大公告成了，以后无论是修改了博客内容还是主题配置，push到GitHub后都会自动进行部署，可以在仓库中点击Actions查看部署进度，部署完成后在浏览器输入：https://<github用户名>.github.io/即可查看。
+需要将文件中的20修改为自己的Node.js版本，并且因为此时仓库中比本地多一个文件，下次先将push之前先pull一下，不然push会失败。那么完成到这个步骤就已经大公告成了，以后无论是修改了博客内容还是主题配置，push到GitHub后都会自动进行部署，可以在仓库中点击Actions查看部署进度，部署完成后在浏览器输入：https://<github用户名>.github.io/即可在公网访问。
