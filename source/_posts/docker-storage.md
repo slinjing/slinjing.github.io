@@ -37,7 +37,7 @@ $ docker volume inspect test-volume
     }
 ]
 ```
-此时已经准备好一个用来持久化数据的卷，接下来在容器启动时使用，对于卷的使用可以选择-v或--mount，它们的区别在于-v语法将所有选项组合在一个字段中，而--mount语法将它们分开，对于-v或--mount官方推荐使用--mount。下面先演示-v如何使用：
+此时已经准备好一个用来持久化数据的卷，接下来在容器启动时使用，对于卷的使用可以选择`-v`或`--mount`，它们的区别在于`-v`语法将所有选项组合在一个字段中，而`--mount`语法将它们分开，对于`-v`或`--mount`官方推荐使用`--mount`。下面先演示`-v`如何使用：
 ```shell
 $ docker run -d --name test-nginx -v test-volume:/usr/share/nginx/html:ro  nginx
 ```
@@ -96,7 +96,7 @@ $ ls /var/lib/docker/volumes/test-volume/_data
 通过验证发现此时数据卷确实还保留在主机上，如果需要删除卷可以使用`docker volume rm test-volume`命令，清理无主的数据卷使用`docker volume prune`命令。
 
 ## 绑定挂载
-Docker中除了上述的卷挂载外，还支持直接将主机目录挂载到容器内。跟卷相比主机上挂载的目录或文件不需要提前创建，如果不存在Docker会自动创建。绑定挂载同样可以使用-v或--volume，如下：
+Docker中除了上述的卷挂载外，还支持直接将主机目录挂载到容器内。跟卷相比主机上挂载的目录或文件不需要提前创建，如果不存在Docker会自动创建。绑定挂载同样可以使用`-v`或`--volume`，如下：
 ```shell
 $ docker run -d --name nginx-v -v /tmp/html:/usr/share/nginx/html nginx
 ```
@@ -183,6 +183,10 @@ $ docker ps | grep nfs-nginx
 3f855d503ec5   nginx     "/docker-entrypoint.…"   2 minutes ago   Up 2 minutes   80/tcp    nfs-nginx
 $ docker volume ls | grep nfsvolume
 local                nfsvolume
+
+# NFS
+$ ls /home/docker-nfs/
+50x.html  index.html
 ```
 
 NFS Server为v4版本，只需要加上`nfsvers=4`如下：
