@@ -3,7 +3,7 @@ title: 部署Harbor镜像仓库  # 必选-文章标题
 date: 2024-05-03 00:00:00    # 必选-文章创建日期
 updated:           # 可选-文章更新日期
 tags:              # 可选-文章标          
-  - Hatbor
+  - Harbor
   - Docker
 categories: Docker  # 可选-文章分类
 keywords:       # 可选-文章关键字

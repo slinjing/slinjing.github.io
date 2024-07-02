@@ -216,43 +216,88 @@ groups:
 
 
 ### 配置告警接收器
-支持多种接收器，[官方文档](https://prometheus.io/docs/alerting/latest/configuration/)有详细说明，本文以webhook为例。
+支持多种告警方式，[官方文档](https://prometheus.io/docs/alerting/latest/configuration/)有详细说明，本文以webhook为例。
 
-```bash
-vim /home/alertmanager/alertmanager.yml
-
-# global：全局配置，主要配置告警方式，如邮件、webhook等。
+>企业微信
+```yaml
 global:
-  resolve_timeout: 15s
-
+  resolve_timeout: 10m
+  wechat_api_url: 'https://qyapi.weixin.qq.com/cgi-bin/'
+  wechat_api_secret: '应用的secret'
+  wechat_api_corp_id: '企业id'
 templates:
-  - '/home/alertmanager/*.tmpl'       # Alertmanager告警模板
-
+- '/etc/alertmanager/config/*.tmpl'
 route:
-  group_by: ['env','instance','type','group','job','alertname']
-  group_wait: 15s        # 当收到告警的时候，等待15秒看是否还有告警，如果有就一起发出去
-  group_interval: 15s    # 发送警告间隔时间
-  repeat_interval: 30s   # 重复报警的间隔时间
-  receiver: 'wechat'
- 
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 12h
+  routes:
+  - receiver: 'wechat'
+    continue: true
+inhibit_rules:
+- source_match:
 receivers:
 - name: 'wechat'
-  webhook_configs:
-  - url: 'http://192.168.32.146:8080/adapter/wx'  # webhook地址
-    send_resolved: true
- 
-inhibit_rules:
-  - source_match:
-      severity: 'critical'
-    target_match:
-      severity: 'warning'
-    equal: ['env','instance','type','group','job','alertname']
+  wechat_configs:
+  - send_resolved: false
+    corp_id: '企业id'
+    to_user: '@all'
+    to_party: ' PartyID1 | PartyID2 '
+    message: '{{ template "wechat.default.message" . }}'
+    agent_id: '应用的AgentId'
+    api_secret: '应用的secret'
+```
+消息模板如下：
+```yaml
+{{ define "wechat.default.message" }}
+{{- if gt (len .Alerts.Firing) 0 -}}
+{{- range $index, $alert := .Alerts -}}
+{{- if eq $index 0 -}}
+告警类型: {{ $alert.Labels.alertname }}
+告警级别: {{ $alert.Labels.severity }}
+
+=====================
+{{- end }}
+===告警详情===
+告警详情: {{ $alert.Annotations.message }}
+故障时间: {{ $alert.StartsAt.Format "2006-01-02 15:04:05" }}
+===参考信息===
+{{ if gt (len $alert.Labels.instance) 0 -}}故障实例ip: {{ $alert.Labels.instance }};{{- end -}}
+{{- if gt (len $alert.Labels.namespace) 0 -}}故障实例所在namespace: {{ $alert.Labels.namespace }};{{- end -}}
+{{- if gt (len $alert.Labels.node) 0 -}}故障物理机ip: {{ $alert.Labels.node }};{{- end -}}
+{{- if gt (len $alert.Labels.pod_name) 0 -}}故障pod名称: {{ $alert.Labels.pod_name }}{{- end }}
+=====================
+{{- end }}
+{{- end }}
+
+{{- if gt (len .Alerts.Resolved) 0 -}}
+{{- range $index, $alert := .Alerts -}}
+{{- if eq $index 0 -}}
+告警类型: {{ $alert.Labels.alertname }}
+告警级别: {{ $alert.Labels.severity }}
+
+=====================
+{{- end }}
+===告警详情===
+告警详情: {{ $alert.Annotations.message }}
+故障时间: {{ $alert.StartsAt.Format "2006-01-02 15:04:05" }}
+恢复时间: {{ $alert.EndsAt.Format "2006-01-02 15:04:05" }}
+===参考信息===
+{{ if gt (len $alert.Labels.instance) 0 -}}故障实例ip: {{ $alert.Labels.instance }};{{- end -}}
+{{- if gt (len $alert.Labels.namespace) 0 -}}故障实例所在namespace: {{ $alert.Labels.namespace }};{{- end -}}
+{{- if gt (len $alert.Labels.node) 0 -}}故障物理机ip: {{ $alert.Labels.node }};{{- end -}}
+{{- if gt (len $alert.Labels.pod_name) 0 -}}故障pod名称: {{ $alert.Labels.pod_name }};{{- end }}
+=====================
+{{- end }}
+{{- end }}
+{{- end }}
 ```
 
 ### 3.5检查配置文件
 
 ```bash
-[root@gt-32 alertmanager]# ./amtool check-config alertmanager.yml
+$ ./amtool check-config alertmanager.yml
 Checking 'alertmanager.yml'  SUCCESS
 Found:
  - global config
