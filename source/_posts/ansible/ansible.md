@@ -25,45 +25,26 @@ Ansible安装建议使用yum命令，更多安装方式参考[安装指南。](h
 $ yum -y install ansible
 ```
 
-为了避免在使用Ansible时需要输入目标主机的密码，建议配置SSH免密登录。
 
 
-
-
-
-## Inventory主机清单
-Ansible通过用户定义的主机与组，对匹配的被控主机进行远程操作，默认的主机清单配置文件是`/etc/ansible/hosts`，除开默认的配置文件外也可以自己定义。
-### 主机与组
-
+## 配置主机清单
+Ansible通过用户定义的主机与组，对匹配的被控主机进行远程操作，默认的主机清单配置文件是`/etc/ansible/hosts`，配置示例如下：
 ```shell
-mail.example.com
-11.0.1.60  
-192.168.1.21:2135
-[web]
-foo.example.com
-bar.example.com
-11.0.1.61
-11.0.1.62
-[db]
-one.example.com
-two.example.com
-three.example.com
-192.168.1.23
+[test]
+jumpserver ansible_ssh_host=192.168.1.50  # 连接目标主机的地址
+192.168.1.24 ansible_ssh_port=1022  # 连接目标主机SSH端口，端口22无需指定
+192.168.1.23 ansible_user=ubuntu  # 连接目标主机默认用户
+192.168.1.23 ansible_ssh_pass=123456Aa # 连接目标主机默认用户密码
+
 ```
-web、db为组名，组成员的名称支持正则表达式。主机可以使用域名、IP或别名，若ssh端口不为默认值也可以在文件中指定。除此之外还可以使用别名定义，如下：
-```shell
-jumpserver ansible_ssh_port=22 ansible_ssh_host=192.168.1.50
-```
->更多别名参数：
-ansible_ssh_host：连接目标主机的地址。
-ansible_ssh_port：连接目标主机SSH端口，端口22无需指定。
-ansible_ssh_user：连接目标主机默认用户。
-ansible_ssh_pass：连接目标主机默认用户密码。
+
+>更多参数：
 ansible_connection：目标主机连接类型，可以是local、ssh或
 paramiko。
 ansible_ssh_private_key_file：连接目标主机的ssh私钥。
 ansible_*_interpreter：指定采用非Python的其他脚本语言，如
 Ruby、Perl或其他类似ansible_python_interpreter解释器。
+
 
 ### 主机变量
 ```shell
