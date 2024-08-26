@@ -19,7 +19,7 @@ menu:
   #   电影: /movies/ || fas fa-video
   # 友链: /link/ || fas fa-link
   关于: /about/ || fas fa-heart
-  文档: /about/
+  文档: https://slinjing.github.io/vitepress-docs/
 
 
 # Code Blocks (代碼相關)
