@@ -104,7 +104,7 @@ $ hexo generate
 ```shell
 $ hexo server
 ```
-![hexo博客](/img/hexo博客.png)
+
 此时已经完成了博客框架框架的搭建，接下来更换一个适合自己的主题。
 
 ## 更换主题
