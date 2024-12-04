@@ -16,7 +16,7 @@ timezone: Asia/Shanghai
 
 title: slinjing # the main title
 
-tagline: "温故而知新！" # it will display as the subtitle
+tagline: welcome to my personal blog # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
@@ -28,17 +28,17 @@ url: https://slinjing.github.io/
 github:
   username: slinjing # change to your GitHub username
 
-twitter:
-  username: twitter_username # change to your Twitter username
+# twitter:
+#   username: twitter_username # change to your Twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: jingshulin
+  name: slinjing
   email: 878057672@qq.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your Twitter homepage
+    # - https://twitter.com/username # change to your Twitter homepage
     - https://github.com/slinjing # change to your GitHub homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
