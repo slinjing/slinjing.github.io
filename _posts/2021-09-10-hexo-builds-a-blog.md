@@ -15,7 +15,7 @@ Hexo 支持多种平台，只需要先安装如下依赖：
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
 
-> Node.js 版本需不低于 10.13，建议使用 Node.js 12.0 及以上版本
+> Node.js 版本需不低于 10.13，建议使用 Node.js 12.0 及以上版本。
 {: .prompt-info }
 <!-- markdownlint-restore -->
 

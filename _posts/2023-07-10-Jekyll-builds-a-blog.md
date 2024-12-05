@@ -12,7 +12,7 @@ Jekyll 官网：[https://jekyllrb.com/](https://jekyllrb.com/)
 Jekyll 支持大多数操作系统，依赖如下：
 - Ruby 2.5.0+
 - RubyGems
-- GCC和Make
+- GCC 和 Make
 
 ## 2.安装 Ruby
 本文环境为 Windows 操作系统，通过 RubyInstaller 进行安装 Ruby，前往 [RubyInstaller 下载地址](https://rubyinstaller.org/downloads/)，下载相应的 Ruby 安装程序（例如，Ruby+Devkit 2.6.6 (x64) - 对于64位系统），然后运行安装程序，确保在安装过程中选中`Add Ruby executables to your PATH`以便于在命令行中使用 Ruby。
@@ -36,6 +36,55 @@ $ gem install jekyll bundler
 $ jekyll -v
 ```
 
-## 4.Jekyll 基础
 
+## 4.快速创建
+Jekyll 安装好后，使用以下命令可以快速创建一个新的 Jekyll 网站。
+```shell
+$ jekyll new my_blog
+$ cd my_blog
+$ bundle exec jekyll serve
+```
+在浏览器访问 [http://127.0.0.1:4000/](http://127.0.0.1:4000/)。
 
+## 5.Jekyll 目录结构
+一个基本的 Jekyll 网站的目录结构如下：
+```shell
+.
+├── _config.yml
+├── _drafts
+|   ├── begin-with-the-crazy-ideas.textile
+|   └── on-simplicity-in-technology.markdown
+├── _includes
+|   ├── footer.html
+|   └── header.html
+├── _layouts
+|   ├── default.html
+|   └── post.html
+├── _posts
+|   ├── 2007-10-29-why-every-programmer-should-play-nethack.textile
+|   └── 2009-04-26-barcamp-boston-4-roundup.textile
+├── _site
+├── .jekyll-metadata
+└── index.html
+```
+
+| 文件/目录                    |  描述 |
+| :--------------------------- |  :------ |
+| _config.yml         |  配置文件 |
+| _posts               |  文章内容，文件命名格式为`YYYY-MM-DD-TITLE.EXTENSION` |
+| _site | Jekyll 生成的网站文件 |
+| assets/images | 文章中的图片文件 |
+| index.html | 网站主页 |
+
+详见官方文档 [Directory Structure](https://jekyllcn.com/docs/structure/)。
+
+## 6.主题
+Jekyll 提供了网站页面的布局和样式，详见官方文档 [Themes](https://jekyllrb.com/docs/themes/)。若要安装一套主题，需要先在 Gemfile 文件中添加如下内容：
+```yaml
+gem 'jekyll-theme-chirpy'
+```
+
+在命令行执行`bundle install`命令安装主题，最后在`_config.yml`文件中启用主题。
+```yaml
+theme: jekyll-theme-chirpy
+```
