@@ -48,26 +48,26 @@ $ yum -y install docker-ce-[VERSION]  # 安装指定版本
 
 ## 2.Ubuntu 安装 Docker
 
-### 1.1 前提条件
+### 2.1 前提条件
 Docker 支持多种版本的 Ubuntu 操作系统，例如：Ubuntu Noble 24.04 (LTS)、Ubuntu Jammy 22.04 (LTS)、Ubuntu Focal 20.04 (LTS)、Ubuntu Bionic 18.04 (LTS)。
 
-### 1.2 安装系统工具
+### 2.2 安装系统工具
 ```shell
 $ apt-get update
 $ apt-get -y install apt-transport-https ca-certificates curl software-properties-common
 ```
 
-### 1.3 安装 GPG 证书
+### 2.3 安装 GPG 证书
 ```shell
 $ curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
 ```
 
-### 1.4 添加软件源
+### 2.4 添加软件源
 ```shell
 $ add-apt-repository "deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
 ```
 
-### 1.5 安装 Docker
+### 2.5 安装 Docker
 
 - 安装最新版本
 
