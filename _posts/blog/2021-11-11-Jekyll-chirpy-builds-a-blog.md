@@ -1,6 +1,6 @@
 ---
 title: Jekyll + Chirpy + GitHub Pages 搭建博客
-date: 2023-07-11 00:34:00 +0800
+date: 2021-11-11 00:34:00 +0800
 categories: [Blogging]
 tags: [Jekyll,Chirpy]
 ---
