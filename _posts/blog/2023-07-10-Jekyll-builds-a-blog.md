@@ -6,7 +6,7 @@ tags: [Jekyll]
 ---
 
 Jekyll 是一个免费的开源静态网站生成器，主要用于将纯文本转换为静态的 HTML、CSS 和 JavaScript 文件，从而生成完整的静态网站。
-Jekyll 官网：[https://jekyllrb.com/](https://jekyllrb.com/)
+Jekyll 官网：<https://jekyllrb.com/>
 
 ## 1.安装前提
 Jekyll 支持大多数操作系统，依赖如下：
@@ -44,7 +44,7 @@ $ jekyll new my_blog
 $ cd my_blog
 $ bundle exec jekyll serve
 ```
-在浏览器访问 [http://127.0.0.1:4000/](http://127.0.0.1:4000/)。
+在浏览器访问 <http://127.0.0.1:4000/>。
 
 ## 5.Jekyll 目录结构
 一个基本的 Jekyll 网站的目录结构如下：

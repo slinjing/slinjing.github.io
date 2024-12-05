@@ -6,7 +6,8 @@ tags: [Hexo]
 ---
 
 Hexo 是一个快速、简洁且高效的博客框架。 Hexo 使用 Markdown（或其他标记语言）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。
-Hexo 官网：[https://hexo.io/zh-cn/](https://hexo.io/zh-cn/)
+Hexo 官网：<https://hexo.io/zh-cn/>
+
 
 ## 1.安装前提
 Hexo 支持多种平台，只需要先安装如下依赖：
@@ -20,10 +21,10 @@ Hexo 支持多种平台，只需要先安装如下依赖：
 <!-- markdownlint-restore -->
 
 ## 2.安装 Git
-本文环境为 Windows 操作系统，前往 Git 官网：[https://git-scm.com/](https://git-scm.com/) 下载安装包安装即可。安装完成后打开命令行工具，执行`git version`命令，返回 Git 版本信息说明安装成功。
+本文环境为 Windows 操作系统，前往 Git 官网：<https://git-scm.com/> 下载安装包安装即可。安装完成后打开命令行工具，执行`git version`命令，返回 Git 版本信息说明安装成功。
 
 ## 3.安装 Node.js
-Node.js 官方提供了安装程序，前往 Node.js 官网：[https://nodejs.org/en/](https://nodejs.org/en/) 下载安装即可，安装时注意记得勾选`Add to PATH`选项，安装完成后执行`node --version`，`npm --version`命令验证。
+Node.js 官方提供了安装程序，前往 Node.js 官网：<https://nodejs.org/en/> 下载安装即可，安装时注意记得勾选`Add to PATH`选项，安装完成后执行`node --version`，`npm --version`命令验证。
 
 ## 4.安装 Hexo
 以上依赖环境安装完成后，打开命令行工具使用 npm 安装Hexo。
@@ -112,7 +113,7 @@ $ hexo server
 ```
 
 ## 6.更换主题
-此时已经完成了博客框架框架的搭建，接下来可以根据自己的喜欢更换一个适合自己的主题，Hexo 主题地址：[https://hexo.io/themes/](https://hexo.io/themes/)。
+此时已经完成了博客框架框架的搭建，接下来可以根据自己的喜欢更换一个适合自己的主题，Hexo 主题地址：<https://hexo.io/themes/>。
 
 本文使用 butterfly 主题，前往 [hexo-theme-butterfly](https://github.com/jerryc127/hexo-theme-butterfly) 下载，然后将下载后将主题放到博客项目的`themes`目录下，最后修改配置文件`_config.yml`文件如下：
 ```yaml
