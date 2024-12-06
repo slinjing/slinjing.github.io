@@ -15,7 +15,6 @@ $ sudo curl -L https://github.com/docker/compose/releases/download/1.27.4/docker
 
 # 国内用户可以使用以下方式加快下载
 $ sudo curl -L https://download.fastgit.org/docker/compose/releases/download/1.27.4/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-
 $ sudo chmod +x /usr/local/bin/docker-compose
 ```
 

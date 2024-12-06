@@ -102,16 +102,23 @@ $ winget install Docker.DockerDesktop
 ### 3.3 运行 Docker
 在 Windows 搜索栏输入 Docker 点击 Docker Desktop 开始运行，Docker 启动之后会在 Windows 任务栏出现鲸鱼图标。当鲸鱼图标静止时，说明 Docker 启动成功，之后可以打开 PowerShell 使用 Docker。
 
-## 4.启动 Docker
+## 4.脚本自动安装 Docker
+Docker 官方为了简化安装流程，提供了一套便捷的安装脚本，另外可以通过 `--mirror` 选项使用国内源进行安装：
+```shell
+$ curl -fsSL get.docker.com -o get-docker.sh
+$ sudo sh get-docker.sh --mirror Aliyun
+```
+
+## 5.启动 Docker
 ```shell
 $ systemctl enable docker --now
 ```
 
-## 5.镜像加速
+## 6.镜像加速
 Docker 默认的镜像下载源因为地理位置、网络速度等原因拉取镜像较慢，使用阿里云的 Docker 镜像加速服务。
 [阿里云](https://www.aliyun.com/?spm=5176.12901015-2.0.0.5a35525chieqsr) -> 点击管理控制台 -> 登录账号(淘宝账号) -> 左侧镜像工具 -> 镜像加速器 -> 复制加速器地址。
 
-### 5.1 Linux
+### 6.1 Linux
 修改 Docker 的配置文件 `/etc/docker/daemon.json`，如果文件不存在新建该文件，添加以下内容：
 ```shell
 {  
@@ -125,7 +132,7 @@ $ sudo systemctl daemon-reload
 $ sudo systemctl restart docker
 ```
 
-### 5.2 Windows
+### 6.2 Windows
 在任务栏托盘 Docker 图标内右键菜单选择 Change settings，打开配置窗口后在左侧导航菜单选择 Docker Engine，在右侧像下边一样编辑 json 文件，之后点击 Apply & Restart 保存后 Docker 就会重启并应用配置的镜像地址了。
 ```shell
 {  
@@ -133,14 +140,14 @@ $ sudo systemctl restart docker
 }
 ```
 
-### 5.3 验证
+### 6.3 验证
 执行 `docker info` 命令，返回如下内容，说明配置成功。
 ```shell
 Registry Mirrors:
  https://b81vthfh.mirror.aliyuncs.com/
 ```
 
-## 6.修改存储路径
+## 7.修改存储路径
 使用 `docker info | grep Dir` 命令，可以看到 Docker 的默认存储路径是 /var/lib/docker，可以按照以下流程进行更改。
 
 - 停止 Docker
@@ -177,23 +184,18 @@ $ docker images
 $ rm -rf /var/lib/docker/*
 ```
 
-## 7.卸载 Docker
+## 8.卸载 Docker
 - CentOS
 
 ```shell
-$ sudo yum -y remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-engine
+$ yum -y remove docker-ce docker-ce-cli containerd.io docker-buildx-plugin \ 
+docker-compose-plugin docker-ce-rootless-extras
 ```
 - Ubuntu
 
 ```shell
-$ sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras -y
+$ sudo apt-get -y purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin \ 
+docker-compose-plugin docker-ce-rootless-extras
 ```
 
 要删除所有镜像、容器和卷，执行以下命令：
