@@ -15,34 +15,45 @@ Jekyll 支持大多数操作系统，依赖如下：
 - GCC 和 Make
 
 ## 2.安装 Ruby
-本文环境为 Windows 操作系统，通过 RubyInstaller 进行安装 Ruby，前往 [RubyInstaller 下载地址](https://rubyinstaller.org/downloads/)，下载相应的 Ruby 安装程序（例如，Ruby+Devkit 2.6.6 (x64) - 对于64位系统），然后运行安装程序，确保在安装过程中选中`Add Ruby executables to your PATH`以便于在命令行中使用 Ruby。
+本文环境为 Windows 操作系统，通过 RubyInstaller 进行安装 Ruby，前往 [RubyInstaller 下载地址](https://rubyinstaller.org/downloads/)，下载相应的 Ruby 安装程序，然后运行安装程序，确保在安装过程中选中`Add Ruby executables to your PATH`以便于在命令行中使用 Ruby。
 
-在弹出的命令行窗口中选择`MSYS2 and MINGW development tool chain`。
+在弹出的命令行窗口中选择 `MSYS2 and MINGW development tool chain`。
 ![](img/msys2-installation-choice.png)
 
 检查是否安装成功：
 ```shell
-$ ruby -v
-$ gem -v
+ruby -v 
+gem -v
 ```
 
 ## 3.安装 Jekyll
 打开新的命令行，使用 gem 安装 Jekyll 和 Bundler。
 ```shell
-$ gem install jekyll bundler
+gem install jekyll bundler
 ```
+由于默认的下载源非常慢，可以使用以下命令更换下载源，使用 `gem source` 命令查看默认下载源后，删除默认的下载源。
+```shell
+gem source
+gem source -r https://rubygems.org/
+```
+添加新的下载源后，使用 `gem source` 命令验证。
+```shell
+gem source --add https://gems.ruby-china.com
+gem source
+```
+
 检查是否安装成功：
 ```shell
-$ jekyll -v
+jekyll -v
 ```
 
 
 ## 4.快速创建
 Jekyll 安装好后，使用以下命令可以快速创建一个新的 Jekyll 网站。
 ```shell
-$ jekyll new my_blog
-$ cd my_blog
-$ bundle exec jekyll serve
+jekyll new my_blog
+cd my_blog
+bundle exec jekyll serve
 ```
 在浏览器访问 <http://127.0.0.1:4000/>。
 
