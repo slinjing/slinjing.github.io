@@ -1,6 +1,6 @@
 ---
 title: Node_exporter 部署
-date: 2023-04-11 11:33:00 +0800
+date: 2023-04-11 09:33:00 +0800
 categories: [Prometheus]
 tags: [Prometheus]
 ---
@@ -51,7 +51,7 @@ systemctl enable node_exporter
 
 ## 6.测试接口
 ```shell
-curl -s {{节点IP}}:9100/metrics
+curl -s {{hostIP}}:9100/metrics
 ```
 
 
