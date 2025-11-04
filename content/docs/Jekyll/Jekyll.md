@@ -2,6 +2,7 @@
 title: Jekyll
 type: docs
 prev: docs/first-page
+weight: 1
 ---
 
 Jekyll 是一个免费的开源静态网站生成器，主要用于将纯文本转换为静态的 HTML、CSS 和 JavaScript 文件，从而生成完整的静态网站。Jekyll 官网：[https://jekyllrb.com](https://jekyllrb.com)。

@@ -58,5 +58,5 @@ params:
     displayPoweredBy: true
 
   editURL:
-    enable: 
+    enable: true 
     base: "https://github.com/slinjing/slinjing.github.io/edit/main/content"
